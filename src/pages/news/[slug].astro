@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import { news } from '../../lib/news';
+
+export function getStaticPaths() {
+  return news.map((n) => ({ params: { slug: n.slug }, props: { item: n } }));
+}
+const { item } = Astro.props;
+const { Content } = item;
+---
+<Base title={item.title} description={item.summary}>
+  <div class="page-head">
+    <div class="wrap">
+      <a class="more back" href="/news/">소식 목록</a>
+      <div class="label" style="margin-top:20px">{item.category}</div>
+      <h1>{item.title}</h1>
+      <time class="date" datetime={String(item.date)}>{item.dateLabel ?? String(item.date)}</time>
+    </div>
+  </div>
+  <section>
+    <div class="wrap">
+      {item.image && <img class="cover" src={item.image} alt="" />}
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.back::after{content:none}.back::before{content:"←"}
+.date{color:var(--text3);font-family:var(--mono);font-size:14px}
+.cover{border-radius:16px;max-height:420px;width:100%;object-fit:cover;margin-bottom:36px}
+</style>

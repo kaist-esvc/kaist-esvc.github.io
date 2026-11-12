@@ -1,0 +1,31 @@
+---
+// 주요 사업 카드: 모든 사업이 같은 항목(발주기관·기간·사업비·책임자)을 같은 순서로 보여줍니다.
+interface P { id: string; title: string; short?: string; sponsor?: string; period?: string; budget?: string; pi?: string; summary?: string }
+interface Props { p: P; href?: string }
+const { p, href = `/results/${p.id}/` } = Astro.props;
+const rows = [
+  ['발주기관', p.sponsor],
+  ['기간', p.period],
+  ['사업비', p.budget],
+  ['책임자', p.pi],
+].filter(([, v]) => v) as [string, string][];
+---
+<a class="program" href={href}>
+  <div class="in">
+    <h3>{p.short ?? p.title}</h3>
+    {p.summary && <p>{p.summary}</p>}
+    <dl class="facts">
+      {rows.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+    </dl>
+    <span class="go">자세히 보기 →</span>
+  </div>
+</a>
+
+<style>
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px;margin:18px 0 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.22)}
+.facts div{display:flex;gap:10px;font-size:13.5px}
+.facts dt{opacity:.7;min-width:56px;flex:none}
+.facts dd{margin:0}
+.go{display:inline-block;margin-top:16px;font-weight:700;font-size:14px}
+@media(max-width:560px){.facts{grid-template-columns:1fr}}
+</style>

@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import topics from '../data/topics.json';
+import projects from '../data/projects.json';
+const cases = projects.filter((p) => !p.flagship);
+---
+<Base title="연구·실증">
+  <PageHead label="Research & Validation" title="연구·실증"
+    lead="전동화·지능형 모빌리티의 설계·제어·운영 원천기술을 연구하고, 그 결과를 제주에서 실증합니다."
+    links={[...topics.map((t) => ({ href: `#${t.id}`, label: t.ko })), { href: '#validation', label: '제주 실증' }]} />
+
+  {topics.map((a, i) => (
+    <section id={a.id} class:list={{ alt: i % 2 === 1 }}>
+      <div class="wrap area-row">
+        <div>
+          <div class="label">{String(i + 1).padStart(2, '0')} · {a.en}</div>
+          <h2 class="sec">{a.ko}</h2>
+          <p class="lead">{a.summary}</p>
+        </div>
+        <div class="topic-list">
+          {a.topics.map((t) => (
+            <div class="card topic" id={t.id}>
+              <h3>{t.title}</h3>
+              <p>{t.desc}</p>
+              <a class="more" href={`/results/?topic=${t.id}`}>관련 성과</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section id="validation" class="val">
+    <div class="wrap">
+      <div class="label" style="color:#b5fff0">04 · Validation in Jeju</div>
+      <h2 class="sec">제주 실증</h2>
+      <p class="lead" style="color:rgba(255,255,255,.88)">세 영역의 연구 성과를 EV-LAB의 시험장비와 제주의 도로·에너지 환경에서 부품 → 차량 → 서비스 단계로 검증합니다.</p>
+      <div class="grid-3" style="margin-top:36px">
+        <a class="card vcard" href="/ev-lab/"><div class="label">EV-LAB</div><h3>부품·차량 시험</h3><p>모터·인버터, 배터리, 완성차를 시험하는 제주 EV-LAB에서 연구 결과를 장비로 확인합니다.</p></a>
+        <a class="card vcard" href="/ev-lab/#vil"><div class="label">VIL · 구축 예정</div><h3>실차 + 가상 교통환경</h3><p>섀시 다이나모미터에 실제 차량을 올리고 가상 교통상황을 연결해, 같은 주행 조건에서 제어 방법을 비교합니다.</p></a>
+        <a class="card vcard" href="/results/"><div class="label">Field</div><h3>제주 현장 실증</h3><p>물류·이동서비스 등 실제 운행 환경에서 차량과 서비스를 함께 검증합니다.</p></a>
+      </div>
+      <h3 style="margin:48px 0 14px;font-size:19px">현장 실증 사례</h3>
+      <div class="grid-2">
+        {cases.map((c) => (
+          <div class="card vcard">
+            <div class="label">{c.period} · 수행 이력</div>
+            <h3>{c.title}</h3>
+            <p>{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.area-row{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+.topic-list{display:grid;gap:14px}
+.topic h3{margin:0 0 6px;font-size:18px}
+.topic p{margin:0 0 10px;color:var(--text2);font-size:15px}
+.val{background:linear-gradient(135deg,#0d3a7a,#0b6d6a)}
+.vcard{background:rgba(6,16,25,.35);border-color:rgba(255,255,255,.14)}
+.vcard .label{color:#b5fff0}
+.vcard h3{margin:8px 0;font-size:18px}
+.vcard p{margin:0;color:rgba(255,255,255,.85);font-size:15px}
+@media(max-width:900px){.area-row{grid-template-columns:1fr;gap:24px}}
+</style>

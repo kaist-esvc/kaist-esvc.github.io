@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import site from '../data/site.json';
+---
+<Base title="문의">
+  <PageHead label="Contact" title="문의" />
+
+  <section>
+    <div class="wrap">
+      <div class="card contact">
+        <div>
+          <div class="label">대표 연락처</div>
+          <a href={`mailto:${site.email}`}><small>이메일</small>{site.email}</a>
+          <a href={`tel:${site.phoneIntl}`}><small>전화</small>{site.phone}</a>
+        </div>
+        <div>
+          <div class="label">주소</div>
+          <p>{site.address}<br />{site.addressDetail}</p>
+          <a class="more" href={`https://map.naver.com/p/search/${encodeURIComponent('제주시 첨단로 330')}`} target="_blank" rel="noopener">지도에서 보기</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:36px 40px}
+.contact .label{margin-bottom:14px}
+.contact > div > a:not(.more){display:block;font-size:21px;font-weight:700;margin-bottom:14px}
+.contact small{display:block;font-size:13px;font-weight:500;color:var(--text2)}
+.contact p{margin:0 0 12px;font-size:17px;line-height:1.7}
+@media(max-width:760px){.contact{grid-template-columns:1fr;gap:24px;padding:26px 24px}}
+</style>

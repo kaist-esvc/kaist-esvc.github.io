@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+import site from '../data/site.json';
+import nav from '../data/nav.json';
+
+interface Props { title?: string; description?: string; transparentHeader?: boolean }
+const { title, description = site.description, transparentHeader = false } = Astro.props;
+const fullTitle = title ? `${title} | ${site.nameKo}` : `${site.nameKo} | ${site.short}`;
+const path = Astro.url.pathname;
+const isActive = (href: string) => path.startsWith(href);
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {(site as any).noindex && <meta name="robots" content="noindex, nofollow" />}
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content="/media/hero/hero-1-poster.jpg" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" />
+</head>
+<body>
+  <header class:list={['site-header', { solid: !transparentHeader }]} data-transparent={transparentHeader ? '1' : '0'}>
+    <div class="wrap nav">
+      <a class="logo" href="/"><img src="/logo/esvc-ko-horizontal-light.svg" alt={`${site.nameKo} (${site.short})`} width="230" height="34" /></a>
+      <nav class="menu" aria-label="주 메뉴">
+        {nav.map((n) => <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>)}
+      </nav>
+      <span class="lang"><b>KO</b> / EN</span>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobileMenu">메뉴</button>
+    </div>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="모바일 메뉴">
+      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+    </nav>
+  </header>
+
+  <main><slot /></main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <img src="/logo/esvc-ko-horizontal-light.svg" alt={`${site.nameKo} (${site.short})`} width="250" height="37" style="margin-bottom:14px" />
+          <p>{site.email} · {site.phone}</p>
+        </div>
+        <div>
+          <b>오시는 길</b>
+          <p>{site.address}<br />{site.addressDetail}</p>
+        </div>
+        <nav aria-label="하단 메뉴">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+      </div>
+      <div class="copy">© {new Date().getFullYear()} KAIST {site.nameEn}. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    const hd = document.querySelector('.site-header') as HTMLElement;
+    if (hd.dataset.transparent === '1') {
+      const onScroll = () => hd.classList.toggle('solid', scrollY > 40);
+      addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    }
+    const btn = document.querySelector('.menu-btn') as HTMLButtonElement;
+    const mm = document.getElementById('mobileMenu')!;
+    btn.addEventListener('click', () => {
+      const open = mm.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+      hd.classList.add('solid');
+    });
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

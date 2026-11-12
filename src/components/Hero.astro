@@ -1,0 +1,117 @@
+---
+// 홈 대표 영상: 영상 2개 + 이미지 2장을 차례로 재생 (파일은 public/media/hero/)
+const slides = [
+  { type: 'video', src: '/media/hero/hero-1.mp4', poster: '/media/hero/hero-1-poster.jpg' },
+  { type: 'video', src: '/media/hero/hero-2.mp4', poster: '/media/hero/hero-2-poster.jpg' },
+  { type: 'image', src: '/media/hero/hero-3.jpg', dur: 8000 },
+  { type: 'image', src: '/media/hero/hero-4.jpg', dur: 8000 },
+];
+---
+<section class="hero" id="hero" aria-label="센터 대표 영상">
+  <div class="slides">
+    {slides.map((s, i) => (
+      <div class:list={['slide', { on: i === 0, kb: s.type === 'image' }]} data-type={s.type} data-dur={s.dur}>
+        {s.type === 'video'
+          ? <video src={s.src} poster={s.poster} muted playsinline preload={i === 0 ? 'auto' : 'metadata'}></video>
+          : <img src={s.src} alt="" loading={i < 2 ? 'eager' : 'lazy'} />}
+      </div>
+    ))}
+  </div>
+
+  <div class="wrap">
+    <div class="hero-copy">
+      <h1>전동화·지능형 모빌리티의<br /><em>설계·제어·운영</em> 원천기술</h1>
+      <p class="tag">제주의 도로와 에너지 위에서 실증합니다.</p>
+      <p class="desc">KAIST 친환경스마트자동차연구센터(ESVC)는 제주를 거점으로 전동화자동차와 에너지 시스템이 효율적으로 함께 움직이는 기술을 연구합니다. EV-LAB의 시험 인프라와 제주의 실제 운행 환경에서 연구 성과를 검증하고 현장에 적용합니다.</p>
+    </div>
+  </div>
+
+  <div class="hero-bar">
+    <div class="wrap">
+      <div class="steps">
+        {slides.map((_, i) => (
+          <button class:list={['step', { on: i === 0 }]} type="button" aria-label={`장면 ${i + 1}`}><span class="track"><span class="fill"></span></span></button>
+        ))}
+      </div>
+      <button class="pause" id="pauseBtn" type="button" aria-label="일시정지">❚❚</button>
+    </div>
+  </div>
+</section>
+
+<style>
+.hero{position:relative;height:min(100vh,1000px);min-height:720px;overflow:hidden;background:#061019;padding:0;display:flex;align-items:center}
+.slides{position:absolute;inset:0}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+.slide.on{opacity:1}
+.slide video,.slide img{width:100%;height:100%;object-fit:cover;display:block}
+.slide.kb img{transform:scale(1.02)}
+.slide.kb.on img{animation:kb 9s ease-out forwards}
+@keyframes kb{to{transform:scale(1.12) translate(-1.5%,-1%)}}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:
+  linear-gradient(90deg,rgba(6,16,25,.86) 0%,rgba(6,16,25,.62) 30%,rgba(6,16,25,.12) 58%,transparent 75%),
+  linear-gradient(180deg,rgba(6,16,25,.55) 0%,transparent 16%),
+  linear-gradient(0deg,var(--bg) 0%,rgba(8,19,31,.6) 10%,transparent 26%)}
+.hero .wrap{position:relative;z-index:2;width:100%}
+.hero-copy{max-width:600px;padding-top:20px}
+h1{font-size:clamp(34px,4.6vw,58px);line-height:1.18;margin:0 0 18px;font-weight:800;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+h1 em{font-style:normal;background:linear-gradient(90deg,#5bb4ff,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-size:clamp(18px,2vw,22px);font-weight:600;margin:0 0 14px;color:#fff}
+.desc{color:#c4d1e3;font-size:16.5px;margin:0;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+.hero-bar{position:absolute;left:0;right:0;bottom:34px;z-index:3}
+.hero-bar .wrap{display:flex;align-items:center;gap:14px}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;flex:1;max-width:520px}
+.step{all:unset;cursor:pointer;display:block;padding-block:10px}
+.track{display:block;height:2px;background:rgba(255,255,255,.2);overflow:hidden;border-radius:2px}
+.fill{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--accent))}
+.step.on .fill{animation:fill var(--dur,8s) linear forwards}
+.step.done .fill{width:100%}
+.hero.paused .step.on .fill{animation-play-state:paused}
+@keyframes fill{to{width:100%}}
+.pause{all:unset;cursor:pointer;flex:none;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;color:#fff;font-size:12px;background:rgba(6,16,25,.35)}
+.pause:hover{border-color:var(--accent)}
+@media(max-width:760px){.hero::after{background:linear-gradient(180deg,rgba(6,16,25,.5),rgba(6,16,25,.75) 45%,var(--bg))}}
+@media (prefers-reduced-motion:reduce){.slide{transition:none}.slide.kb.on img{animation:none}}
+</style>
+
+<script>
+  const hero = document.getElementById('hero')!;
+  const slides = [...hero.querySelectorAll<HTMLElement>('.slide')];
+  const steps = [...hero.querySelectorAll<HTMLElement>('.step')];
+  const pb = document.getElementById('pauseBtn')!;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cur = 0, timer: number | undefined, startedAt = 0, remain = 0, paused = reduce;
+
+  const vid = (i: number) => slides[i].querySelector('video');
+  const durOf = (i: number) => {
+    const v = vid(i);
+    if (v) return (isFinite(v.duration) && v.duration > 0 ? v.duration : 8) * 1000;
+    return Number(slides[i].dataset.dur) || 8000;
+  };
+  const arm = (ms: number) => { clearTimeout(timer); startedAt = Date.now(); remain = ms; timer = window.setTimeout(() => go(cur + 1), ms); };
+
+  function go(i: number) {
+    i = (i + slides.length) % slides.length;
+    clearTimeout(timer);
+    slides.forEach((s, k) => { s.classList.toggle('on', k === i); if (k !== i) vid(k)?.pause(); });
+    steps.forEach((b, k) => { b.classList.remove('on', 'done'); if (k < i) b.classList.add('done'); });
+    cur = i;
+    const st = steps[i]; void st.offsetWidth;
+    const next = vid((i + 1) % slides.length); if (next) next.preload = 'auto';
+    const v = vid(i);
+    const start = () => { const ms = durOf(i); st.style.setProperty('--dur', ms + 'ms'); st.classList.add('on'); remain = ms; if (!paused) arm(ms); };
+    if (v) {
+      v.currentTime = 0; if (!paused) v.play().catch(() => {});
+      if (isFinite(v.duration) && v.duration > 0) start(); else v.addEventListener('loadedmetadata', start, { once: true });
+    } else start();
+  }
+  steps.forEach((b, k) => b.addEventListener('click', () => go(k)));
+  pb.addEventListener('click', () => {
+    paused = !paused; hero.classList.toggle('paused', paused);
+    const v = vid(cur);
+    if (paused) { clearTimeout(timer); remain -= Date.now() - startedAt; v?.pause(); pb.textContent = '▶'; pb.setAttribute('aria-label', '재생'); }
+    else { v?.play().catch(() => {}); arm(Math.max(remain, 300)); pb.textContent = '❚❚'; pb.setAttribute('aria-label', '일시정지'); }
+  });
+  document.addEventListener('visibilitychange', () => { const v = vid(cur); if (document.hidden) v?.pause(); else if (!paused) v?.play().catch(() => {}); });
+  if (reduce) { hero.classList.add('paused'); pb.textContent = '▶'; }
+  go(0);
+</script>

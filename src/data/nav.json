@@ -1,0 +1,7 @@
+[
+  { "href": "/about/", "label": "센터 소개" },
+  { "href": "/results/", "label": "연구성과" },
+  { "href": "/ev-lab/", "label": "EV-LAB" },
+  { "href": "/news/", "label": "소식" },
+  { "href": "/contact/", "label": "문의" }
+]

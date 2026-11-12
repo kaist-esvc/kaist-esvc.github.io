@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ResearchAreas from '../components/ResearchAreas.astro';
+import ProgramCard from '../components/ProgramCard.astro';
+import PubList from '../components/PubList.astro';
+import NewsCard from '../components/NewsCard.astro';
+import ContactBand from '../components/ContactBand.astro';
+import projects from '../data/projects.json';
+import equipment from '../data/equipment.json';
+import { news } from '../lib/news';
+
+const flagship = projects.filter((p) => p.flagship);
+const research = projects.filter((p) => !p.flagship).slice(0, 3);
+const featured = equipment.filter((e) => e.featured);
+---
+<Base transparentHeader>
+  <Hero />
+
+  <!-- 연구 영역: 주제 수준 요약 -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">What we do</div><h2 class="sec">연구 영역</h2></div>
+      </div>
+      <div style="margin-top:40px"><ResearchAreas /></div>
+    </div>
+  </section>
+
+  <!-- 주요 사업 -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">Flagship programs</div><h2 class="sec">주요 사업</h2></div>
+        <a class="more" href="/results/">전체 과제</a>
+      </div>
+      <div class="grid-2 reveal" style="margin-top:40px">
+        {flagship.map((p) => <ProgramCard p={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- EV-LAB 요약 -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">Jeju EV-LAB</div><h2 class="sec">무엇을 시험할 수 있나요?</h2></div>
+        <a class="more" href="/ev-lab/">전체 장비 보기</a>
+      </div>
+      <p class="lead reveal" style="margin-top:14px">약 40억 원 규모의 시험장비로 전동화자동차의 부품부터 완성차까지 시험합니다.</p>
+      <div class="evlab-home reveal">
+        <div class="ph"><img src="/media/evlab/chassis-dyno.jpg" alt="제주 EV-LAB 섀시 다이나모미터" loading="lazy" /></div>
+        <ul class="equip">
+          {featured.map((e, i) => (
+            <li><span class="ix">{String(i + 1).padStart(2, '0')}</span><div><b>{e.name}</b><p>{e.specs.slice(0, 2).join(' · ')}</p></div></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 연구성과 요약 -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">Projects &amp; Publications</div><h2 class="sec">연구과제와 성과</h2></div>
+        <a class="more" href="/results/">전체 성과</a>
+      </div>
+      <div class="grid-2 reveal" style="margin-top:40px;gap:40px">
+        <div>
+          <h3 class="col-h">최근 논문</h3>
+          <PubList limit={3} />
+        </div>
+        <div>
+          <h3 class="col-h">연구과제</h3>
+          <div style="display:grid;gap:12px">
+            {research.map((p) => (
+              <a class="pcard" href="/results/#projects">
+                <b><span class:list={['st', p.status === '진행' ? 'on' : 'done']}>{p.status}</span>{p.title}</b>
+                <span class="yr">{p.period}</span>
+                <span>{p.sponsor}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 소식 -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">News</div><h2 class="sec">소식</h2></div>
+        <a class="more" href="/news/">전체 소식</a>
+      </div>
+      <div class="grid-3 reveal" style="margin-top:36px">
+        {news.slice(0, 3).map((n) => <NewsCard item={n} />)}
+      </div>
+    </div>
+  </section>
+
+  <ContactBand />
+</Base>
+
+<style>
+.evlab-home{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start;margin-top:36px}
+.evlab-home .ph{aspect-ratio:4/3;border-radius:20px;overflow:hidden}
+.evlab-home .ph img{width:100%;height:100%;object-fit:cover}
+.col-h{font-size:18px;margin:0 0 12px}
+@media(max-width:900px){.evlab-home{grid-template-columns:1fr}}
+</style>

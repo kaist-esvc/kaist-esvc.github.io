@@ -1,0 +1,125 @@
+---
+// 출처: 2026년도 제주혁신성장센터 Route330 기술창업기업 기술고도화 사업계획서(KAIST), 센터 제주사업 현황(2026.9)
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Facts from '../../components/Facts.astro';
+import projects from '../../data/projects.json';
+const p = projects.find((x) => x.id === 'route330')!;
+const fields = [
+  { t: '모빌리티·에너지', tag: '집중육성', d: '전기차·배터리·BMS·충전·전력·차량제어·자율주행·모터·인버터', f: 'EV-LAB 기술검증, 모빌리티·에너지 PoC, 정부 R&D·사업화 연계' },
+  { t: 'AI·딥테크', tag: '융합확산', d: 'AI·데이터·로봇·센서·디지털트윈·첨단소재·바이오·플랫폼', f: '핵심기술 고도화, 독자 제품·서비스 사업화, 다른 산업의 AX 융합' },
+  { t: '제주특화산업', tag: '집중육성', d: '농수산·해양·환경·관광·자원순환·생활서비스', f: '현장 데이터 확보, 제주 현안형 PoC, 공공·민간 수요 연계' },
+];
+const tasks = [
+  { n: '01', t: '전략기획 및 성장체계 구축', d: ['센터 중장기 발전 방향과 3개년 실행계획 수립', '공동 R&D 발굴, 컨소시엄 구성 등 정부과제 기획·수행 지원'] },
+  { n: '02', t: '기업 성장 및 기술지원', d: ['입주기업 전수 기술진단, 시제품·PoC·IP·사업화 지원', '상시 기술상담과 분야별 전문가 연계'] },
+  { n: '03', t: '인프라 및 공간 운영', d: ['EV-LAB 기술교육–장비실습–시험·분석–유료활용 연계', '센터 공간·시설 운영과 안전관리'] },
+  { n: '04', t: '운영관리 및 성과확산', d: ['입주기업 발굴·선정과 연차평가', '홍보·지원사업 정보 제공, 성과관리와 환류'] },
+];
+const steps = ['기업 진단', '기술지도·상담', '시험·실증', '정부 R&D', '사업화'];
+---
+<Base title={p.short}>
+  <PageHead label="Flagship program · Route330" title="제주혁신성장센터 Route330 기술창업기업 기술고도화"
+    lead="'제주 AX'를 공통 키워드로, 제주혁신성장센터 입주 기술창업기업이 기술진단부터 시험·실증, 정부 R&D, 사업화까지 이어갈 수 있도록 전주기를 지원합니다." />
+
+  <section>
+    <div class="wrap">
+      <a class="more back" href="/results/">연구성과</a>
+      <Facts rows={[
+        ['발주기관', p.sponsor],
+        ['수행기관', p.lead],
+        ['기간', p.period],
+        ['사업비', p.budget],
+        ['책임자', p.pi],
+        ['대상', 'Route330 입주 기술창업기업 (연 10개사 내외 집중 지원)'],
+      ]} />
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="label">Concept</div>
+      <h2 class="sec">기업의 기술을 시장까지 잇는 전주기 지원</h2>
+      <p class="lead">국가와 제주도의 정책을 기업의 기술개발·실증 과제로 구체화하고, 진단부터 사업화까지 끊김 없이 연결합니다. 시험·실증 단계는 제주 EV-LAB이 맡습니다.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 1000 400" role="img" aria-label="Route330 개념도: 공통 키워드 제주 AX 아래 기업 진단, 기술지도·상담, 시험·실증(EV-LAB), 정부 R&D, 사업화로 이어지는 전주기 지원과 3대 대상 산업군">
+          <defs>
+            <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#38d9b4"/></marker>
+            <linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#1565c0"/><stop offset="1" stop-color="#0e8f86"/></linearGradient>
+          </defs>
+          <g font-family="Pretendard Variable,Pretendard,sans-serif">
+            <rect x="340" y="14" width="320" height="56" rx="28" fill="url(#rg)"/>
+            <text x="500" y="49" text-anchor="middle" fill="#fff" font-size="20" font-weight="800">공통 키워드 · 제주 AX</text>
+            <path d="M500 70 L500 104" stroke="#5f7592" stroke-width="1.6" marker-end="url(#ah2)"/>
+
+            {steps.map((s, i) => (
+              <g>
+                <rect x={20 + i * 196} y="110" width="172" height="90" rx="14" fill={i === 2 ? '#0d3f86' : '#10233a'} stroke={i === 2 ? '#3aa0ff' : 'rgba(120,210,230,.3)'}/>
+                <text x={106 + i * 196} y="146" text-anchor="middle" fill="#38d9b4" font-size="13" font-family="JetBrains Mono,monospace">STEP {i + 1}</text>
+                <text x={106 + i * 196} y="176" text-anchor="middle" fill="#e3eaf4" font-size="19" font-weight="700">{s}</text>
+                {i < steps.length - 1 && <path d={`M${192 + i * 196} 155 L${212 + i * 196} 155`} stroke="#38d9b4" stroke-width="2" marker-end="url(#ah2)"/>}
+              </g>
+            ))}
+            <text x="498" y="222" text-anchor="middle" fill="#7fc4ff" font-size="14">제주 EV-LAB 시험·분석</text>
+
+            <text x="20" y="268" fill="#38d9b4" font-size="13" font-family="JetBrains Mono,monospace" letter-spacing="2">3대 대상 산업군</text>
+            {fields.map((f, i) => (
+              <g>
+                <rect x={20 + i * 330} y="282" width="300" height="96" rx="12" fill="rgba(255,255,255,.03)" stroke="rgba(120,210,230,.25)"/>
+                <text x={40 + i * 330} y="318" fill="#e3eaf4" font-size="19" font-weight="700">{f.t}</text>
+                <text x={40 + i * 330} y="350" fill="#a2b3cc" font-size="14">{f.tag}</text>
+              </g>
+            ))}
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="label">Target industries</div>
+      <h2 class="sec">대상 산업군</h2>
+      <div class="grid-3" style="margin-top:28px">
+        {fields.map((f) => (
+          <div class="card fld">
+            <div class="label">{f.tag}</div>
+            <h3>{f.t}</h3>
+            <p><b>대상</b> {f.d}</p>
+            <p><b>중점 지원</b> {f.f}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="label">Key tasks</div>
+      <h2 class="sec">4대 추진과제</h2>
+      <div class="tasks">
+        {tasks.map((t) => (
+          <div class="card task">
+            <div class="label">{t.n}</div>
+            <h3>{t.t}</h3>
+            <ul>{t.d.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.back::after{content:none}.back::before{content:"←"}
+.diagram{margin-top:32px;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--bg);overflow-x:auto}
+.diagram svg{width:100%;min-width:760px;height:auto;display:block}
+.fld h3,.task h3{margin:8px 0 10px;font-size:19px}
+.fld p{margin:0 0 8px;color:var(--text2);font-size:15px}
+.fld b{color:var(--text);margin-right:6px;font-weight:600}
+.tasks{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:28px}
+.task ul{margin:0;padding-left:18px;color:var(--text2);font-size:15px}
+.task li{margin-bottom:6px}
+@media(max-width:860px){.tasks{grid-template-columns:1fr}}
+</style>

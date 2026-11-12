@@ -1,0 +1,23 @@
+{
+  "director": {
+    "name": "최경환",
+    "title": "센터장",
+    "affiliation": "KAIST 조천식모빌리티대학원 교수",
+    "lab": "모빌리티 지능화 및 제어 연구실 (MIC Lab)",
+    "labUrl": "https://kaist-mic-lab.github.io/",
+    "photo": "/media/people/kchoi.jpg"
+  },
+  "teams": [
+    { "name": "연구팀", "desc": "연구과제 기획·수행, EV-LAB 운영, 산업화 연계" },
+    { "name": "행정팀", "desc": "센터 행정, 기업 지원 및 사업 운영" }
+  ],
+  "research": [
+    { "name": "임철우", "position": "연구교수", "duty": "EV-LAB 운영, 연구기획 및 수행, 기업 기술지원", "email": "cwrhim@kaist.ac.kr" },
+    { "name": "이준헌", "position": "연구교수", "duty": "연구기획 및 수행, 기업 기술지원", "email": "heon11@kaist.ac.kr" },
+    { "name": "강민재", "position": "연구원", "duty": "연구관리", "email": "minjae.kang@kaist.ac.kr" }
+  ],
+  "admin": [
+    { "name": "김용인", "position": "행정팀장", "duty": "행정 업무 총괄", "email": "kyi5407@kaist.ac.kr" },
+    { "name": "최지현", "position": "행정원", "duty": "행정 지원", "email": "jeehyunchoi@kaist.ac.kr" }
+  ]
+}

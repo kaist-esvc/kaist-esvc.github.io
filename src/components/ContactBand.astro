@@ -1,0 +1,30 @@
+---
+import site from '../data/site.json';
+---
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="cta reveal">
+      <div>
+        <div class="label" style="color:#bff5ea">Contact</div>
+        <h2>함께 연구하고 실증할 파트너를 기다립니다</h2>
+        <p>공동연구 · EV-LAB 장비 이용 · 기업 기술지원</p>
+      </div>
+      <div class="direct">
+        <a href={`mailto:${site.email}`}><small>이메일</small>{site.email}</a>
+        <a href={`tel:${site.phoneIntl}`}><small>전화</small>{site.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.cta-sec{padding-block:56px}
+.cta{padding:30px 36px;grid-template-columns:1fr auto;gap:28px}
+.cta h2{font-size:clamp(20px,2.2vw,26px);margin:6px 0 6px}
+.cta p{font-size:15px}
+.direct{display:flex;gap:10px;flex-wrap:wrap}
+.direct a{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);border-radius:12px;padding:12px 18px;font-weight:700;font-size:16px;transition:.2s}
+.direct a:hover{background:rgba(255,255,255,.25)}
+.direct small{display:block;font-weight:400;font-size:12px;opacity:.85}
+@media(max-width:860px){.cta{grid-template-columns:1fr;padding:26px 24px}}
+</style>

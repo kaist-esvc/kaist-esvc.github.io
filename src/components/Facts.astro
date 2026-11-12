@@ -1,0 +1,15 @@
+---
+// 사업 개요 표 (상세 페이지 공통)
+interface Props { rows: [string, string][] }
+const { rows } = Astro.props;
+---
+<dl class="facts-box">
+  {rows.filter(([, v]) => v).map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+</dl>
+
+<style>
+.facts-box{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;margin:28px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.facts-box div{display:flex;gap:14px;padding:14px 20px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.facts-box dt{color:var(--text3);min-width:72px;font-size:14px;flex:none}
+.facts-box dd{margin:0;font-size:15px}
+</style>

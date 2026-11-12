@@ -1,0 +1,13 @@
+---
+import type { NewsItem } from '../lib/news';
+interface Props { item: NewsItem }
+const { item } = Astro.props;
+---
+<a class="news" href={`/news/${item.slug}/`}>
+  <div class="ph">{item.image ? <img src={item.image} alt="" loading="lazy" /> : <div class="placeholder">ESVC</div>}</div>
+  <div class="body">
+    <span class="cat">{item.category}</span>
+    <h3>{item.title}</h3>
+    <time datetime={String(item.date)}>{item.dateLabel ?? String(item.date)}</time>
+  </div>
+</a>

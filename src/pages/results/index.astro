@@ -1,0 +1,69 @@
+---
+// 연구성과: 주요 사업 → 연구과제 전체 → 논문
+// 관리 메모
+//  - 과제: src/data/projects.json (flagship: true 이면 '주요 사업' 카드 + 상세 페이지)
+//  - 논문: src/data/publications.json. 논문의 "projects"에 과제 id를 넣으면 '사사 과제'로 표시됩니다.
+//  - 논문 분류 방식은 논문 목록이 모인 뒤 정리 예정
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import PubList from '../../components/PubList.astro';
+import ProgramCard from '../../components/ProgramCard.astro';
+import projects from '../../data/projects.json';
+
+const flagship = projects.filter((p) => p.flagship);
+const all = projects.slice().sort((a, b) => b.period.localeCompare(a.period));
+---
+<Base title="연구성과">
+  <PageHead label="Projects & Publications" title="연구성과"
+    links={[{ href: '#flagship', label: '주요 사업' }, { href: '#projects', label: '연구과제' }, { href: '#publications', label: '논문' }]} />
+
+  <section id="flagship">
+    <div class="wrap">
+      <div class="label">Flagship programs</div>
+      <h2 class="sec">주요 사업</h2>
+      <div class="grid-2" style="margin-top:28px">
+        {flagship.map((p) => <ProgramCard p={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="alt">
+    <div class="wrap">
+      <div class="label">Projects</div>
+      <h2 class="sec">연구과제</h2>
+      <div class="table-wrap" style="margin-top:24px">
+        <table class="ptable">
+          <thead><tr><th>상태</th><th>과제명</th><th>발주기관</th><th>연구기간</th><th>사업비</th><th>책임자</th></tr></thead>
+          <tbody>
+            {all.map((p) => (
+              <tr id={p.id}>
+                <td><span class:list={['st', p.status === '진행' ? 'on' : 'done']}>{p.status}</span></td>
+                <td>{p.flagship ? <a href={`/results/${p.id}/`}><b>{p.title}</b></a> : <b>{p.title}</b>}{(p as any).note && <small>{(p as any).note}</small>}</td>
+                <td>{p.sponsor}</td>
+                <td class="nowrap">{p.period}</td>
+                <td class="nowrap">{p.budget}</td>
+                <td class="nowrap">{p.pi || '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="publications">
+    <div class="wrap">
+      <div class="label">Publications</div>
+      <h2 class="sec">논문</h2>
+      <div style="margin-top:20px"><PubList /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.ptable{min-width:900px}
+.ptable td b{font-weight:600}
+.ptable td a b{color:var(--brand)}
+.ptable small{display:block;color:var(--text3);font-size:12.5px;margin-top:2px}
+.nowrap{white-space:nowrap}
+</style>
