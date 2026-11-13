@@ -1,0 +1,62 @@
+---
+// 일반 연구과제 상세 (국문 / 영문 공통): 과제 개요 + 이 과제를 사사한 논문·특허
+// 페이지 파일: src/pages/results/[id].astro, src/pages/en/results/[id].astro
+// (대표 과제 2개는 별도 화면: GlocalLab.astro, Route330.astro)
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Facts from '../components/Facts.astro';
+import PubList from '../components/PubList.astro';
+import PatentList from '../components/PatentList.astro';
+import { pubsOf, patentsOf } from '../lib/outputs';
+import { tr, budget, statusLabel, href as L, type Lang } from '../lib/i18n';
+
+interface Props { p: any; lang?: Lang }
+const { p, lang = 'ko' } = Astro.props;
+const en = lang === 'en';
+const t = (ko: string, eng: string) => (en ? eng : ko);
+const nPub = pubsOf(p.id).length;
+const nPat = patentsOf(p.id).length;
+const title = tr(p, 'title', lang);
+const rows: [string, string][] = en
+  ? [['Sponsor', tr(p, 'sponsor', lang)], ['Period', p.period], ['Budget', budget(p.budget, lang)!], ['Note', tr(p, 'note', lang)]]
+  : [['발주기관', p.sponsor], [p.kind === '지원' ? '사업기간' : '연구기간', p.period], ['사업비', p.budget], ['책임자', p.pi], ['비고', p.note]];
+---
+<Base title={title} lang={lang}>
+  <PageHead label={`${p.kind === '지원' ? 'Program' : 'Project'} · ${statusLabel(p.status, lang)}`} title={title} />
+
+  <section>
+    <div class="wrap">
+      <a class="more back" href={L(lang, '/results/#projects')}>{t('연구과제 목록', 'All projects')}</a>
+      <Facts rows={rows} />
+    </div>
+  </section>
+
+  {nPub > 0 && (
+    <section class="alt">
+      <div class="wrap">
+        <div class="label">Publications</div>
+        <h2 class="sec">{t('논문', 'Publications')} <span class="cnt">{nPub}</span></h2>
+        <div style="margin-top:20px"><PubList project={p.id} lang={lang} /></div>
+      </div>
+    </section>
+  )}
+
+  {nPat > 0 && (
+    <section>
+      <div class="wrap">
+        <div class="label">Patents</div>
+        <h2 class="sec">{t('특허', 'Patents')} <span class="cnt">{nPat}</span></h2>
+        <div style="margin-top:20px"><PatentList project={p.id} lang={lang} /></div>
+      </div>
+    </section>
+  )}
+
+  {nPub + nPat === 0 && (
+    <section class="alt"><div class="wrap"><div class="empty">{t('이 과제의 논문·특허 정보를 준비하고 있습니다.', 'Publications and patents for this project will be listed here.')}</div></div></section>
+  )}
+</Base>
+
+<style>
+.back::after{content:none}.back::before{content:"←"}
+.cnt{font-size:.55em;color:var(--accent);vertical-align:middle;margin-left:6px}
+</style>

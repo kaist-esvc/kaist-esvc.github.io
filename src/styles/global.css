@@ -49,6 +49,8 @@ section{padding-block:96px}
 .menu a:hover,.menu a[aria-current="page"]{color:#fff;border-color:var(--accent)}
 .lang{font-family:var(--mono);font-size:12px;color:var(--text3);border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap}
 .lang b{color:var(--text)}
+.lang a{color:var(--text3)}
+.lang a:hover{color:var(--accent)}
 .menu-btn{display:none;margin-left:12px;background:none;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:6px 10px;font:600 13px var(--sans);cursor:pointer}
 .mobile-menu{display:none}
 @media(max-width:1080px){

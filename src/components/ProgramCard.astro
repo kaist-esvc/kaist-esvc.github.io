@@ -1,23 +1,24 @@
 ---
 // 대표 과제 카드: 모든 사업이 같은 항목(발주기관·기간·사업비·책임자)을 같은 순서로 보여줍니다.
-interface P { id: string; title: string; short?: string; sponsor?: string; period?: string; budget?: string; pi?: string; summary?: string }
-interface Props { p: P; href?: string }
-const { p, href = `/results/${p.id}/` } = Astro.props;
-const rows = [
-  ['발주기관', p.sponsor],
-  ['기간', p.period],
-  ['사업비', p.budget],
-  ['책임자', p.pi],
-].filter(([, v]) => v) as [string, string][];
+// 영문판은 책임자 이름을 표시하지 않습니다.
+import { tr, budget, href as L, type Lang } from '../lib/i18n';
+interface Props { p: any; href?: string; lang?: Lang }
+const { p, lang = 'ko' } = Astro.props;
+const en = lang === 'en';
+const link = Astro.props.href ?? L(lang, `/results/${p.id}/`);
+const rows = (en
+  ? [['Sponsor', tr(p, 'sponsor', lang)], ['Period', p.period], ['Budget', budget(p.budget, lang)]]
+  : [['발주기관', p.sponsor], ['기간', p.period], ['사업비', p.budget], ['책임자', p.pi]]
+).filter(([, v]) => v) as [string, string][];
 ---
-<a class="program" href={href}>
+<a class="program" href={link}>
   <div class="in">
-    <h3>{p.short ?? p.title}</h3>
-    {p.summary && <p>{p.summary}</p>}
+    <h3>{tr(p, 'short', lang) ?? tr(p, 'title', lang)}</h3>
+    {p.summary && <p>{tr(p, 'summary', lang)}</p>}
     <dl class="facts">
       {rows.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
     </dl>
-    <span class="go">자세히 보기 →</span>
+    <span class="go">{en ? 'Learn more →' : '자세히 보기 →'}</span>
   </div>
 </a>
 

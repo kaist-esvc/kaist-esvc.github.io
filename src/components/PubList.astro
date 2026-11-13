@@ -1,8 +1,11 @@
 ---
 // 논문 목록. 데이터: src/data/publications.json (형식은 README 참고)
+// 논문 제목·저자·학회명은 원문 그대로 표시합니다 (영문판도 동일).
 import { pubs as all, projectName } from '../lib/outputs';
-interface Props { limit?: number; project?: string; showAck?: boolean }
-const { limit, project, showAck = true } = Astro.props;
+import { href, type Lang } from '../lib/i18n';
+interface Props { limit?: number; project?: string; showAck?: boolean; lang?: Lang }
+const { limit, project, showAck = true, lang = 'ko' } = Astro.props;
+const en = lang === 'en';
 let pubs = project ? all.filter((p) => p.projects?.includes(project)) : all;
 if (limit) pubs = pubs.slice(0, limit);
 const meta = (p: (typeof all)[number]) =>
@@ -10,19 +13,19 @@ const meta = (p: (typeof all)[number]) =>
     .filter(Boolean).join(', ');
 ---
 {pubs.length === 0
-  ? <div class="empty">논문 목록을 준비하고 있습니다.</div>
+  ? <div class="empty">{en ? 'Publication list coming soon.' : '논문 목록을 준비하고 있습니다.'}</div>
   : (
     <ul class="pubs">
       {pubs.map((p) => (
         <li>
           <div class="ptitle">
-            <span class:list={['ptype', p.type]}>{p.type === 'journal' ? '저널' : '학회'}</span>
+            <span class:list={['ptype', p.type]}>{p.type === 'journal' ? (en ? 'Journal' : '저널') : (en ? 'Conference' : '학회')}</span>
             {p.link ? <a href={p.link} target="_blank" rel="noopener">{p.title}</a> : p.title}
           </div>
           <div class="pmeta">{p.authors}</div>
           <div class="pmeta"><i>{meta(p)}</i></div>
           {showAck && p.projects && p.projects.length > 0 && (
-            <div class="ack">사사 · {p.projects.map((id, i) => <>{i > 0 && ', '}<a href={`/results/${id}/`}>{projectName(id)}</a></>)}</div>
+            <div class="ack">{en ? 'Funded by' : '사사'} · {p.projects.map((id, i) => <>{i > 0 && ', '}<a href={href(lang, `/results/${id}/`)}>{projectName(id, lang)}</a></>)}</div>
           )}
         </li>
       ))}

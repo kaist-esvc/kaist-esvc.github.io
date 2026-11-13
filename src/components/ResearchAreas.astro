@@ -2,24 +2,34 @@
 // 연구 영역 카드 3개(topics.json: 키워드 + 범위 한 줄 + 요약; 세부 topics는 숨김 페이지용) + 아래 '제주 실증' 띠
 // (상세 '연구·실증' 페이지는 내용이 갖춰질 때까지 숨김: src/pages/_research.astro)
 import topics from '../data/topics.json';
+import { tr, href, type Lang } from '../lib/i18n';
+interface Props { lang?: Lang }
+const { lang = 'ko' } = Astro.props;
+const en = lang === 'en';
 ---
 <div class="grid-3">
   {topics.map((a, i) => (
     <div class="card area reveal" style={`transition-delay:${i * 0.08}s`}>
-      <div class="en">{a.en}</div>
-      <h3>{a.ko}</h3>
-      <div class="scope">{a.scope}</div>
-      <p>{a.summary}</p>
+      {!en && <div class="en">{a.en}</div>}
+      <h3>{en ? a.en : a.ko}</h3>
+      <div class="scope">{tr(a, 'scope', lang)}</div>
+      <p>{tr(a, 'summary', lang)}</p>
     </div>
   ))}
 </div>
 <div class="card validation reveal">
-  <div><div class="en label">Validation in Jeju</div><h3>제주 실증</h3></div>
+  <div><div class="en label">Validation in Jeju</div><h3>{en ? 'Validated in Jeju' : '제주 실증'}</h3></div>
   <div>
-    <p>연구 성과를 EV-LAB에서 부품과 실차 단위로 시험하고, 제주의 실제 도로와 에너지 환경에서 다시 검증합니다.</p>
-    <div class="tags" style="margin-top:12px"><span>EV-LAB 시험 · 부품·실차</span><span>현장 실증 · 제주 도로·에너지</span></div>
+    {en
+      ? <p>Research results are tested at component and vehicle level at the Jeju EV-LAB, then validated again on Jeju's real roads and energy systems.</p>
+      : <p>연구 성과를 EV-LAB에서 부품과 실차 단위로 시험하고, 제주의 실제 도로와 에너지 환경에서 다시 검증합니다.</p>}
+    <div class="tags" style="margin-top:12px">
+      {en
+        ? <><span>EV-LAB testing · components & vehicles</span><span>Field validation · Jeju roads & energy</span></>
+        : <><span>EV-LAB 시험 · 부품·실차</span><span>현장 실증 · 제주 도로·에너지</span></>}
+    </div>
   </div>
-  <a class="more" href="/ev-lab/">EV-LAB 보기</a>
+  <a class="more" href={href(lang, '/ev-lab/')}>{en ? 'Explore EV-LAB' : 'EV-LAB 보기'}</a>
 </div>
 
 <style>

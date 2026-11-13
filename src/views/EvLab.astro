@@ -1,0 +1,152 @@
+---
+// 제주 EV-LAB (국문 / 영문 공통). 페이지 파일: src/pages/ev-lab.astro, src/pages/en/ev-lab.astro
+// 장비 정보 출처: Jeju EV-LAB Equipment Catalog (2026.9), 학과 매칭자원 관련 자료(hwp) — 층 배치는 센터장 확인(배터리 장비만 2층)
+// 장비 문구는 src/data/equipment.json (영문: nameEn, descEn, specsEn, makerEn)
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import equipment from '../data/equipment.json';
+import site from '../data/site.json';
+import { tr, type Lang } from '../lib/i18n';
+
+interface Props { lang?: Lang }
+const { lang = 'ko' } = Astro.props;
+const en = lang === 'en';
+const t = (ko: string, eng: string) => (en ? eng : ko);
+
+const cols = en
+  ? ['Chassis dynamometer', 'Motor & inverter', 'Battery', '3D scanner', 'Workshop']
+  : ['섀시 다이나모미터', '모터·인버터 시험', '배터리 시험', '3D 스캐너', '작업장'];
+const matrix: [string, string, number][] = [
+  ['주행 사이클·도로부하 재현 (에너지 소비, 주행거리)', 'Driving-cycle and road-load reproduction (energy consumption, range)', 0],
+  ['자동차 검사 모드 및 사용자 정의 주행 사이클', 'Vehicle inspection modes and user-defined driving cycles', 0],
+  ['타력주행(coast-down) 기반 도로부하 산출', 'Road-load derivation from coast-down tests', 0],
+  ['모터·인버터 효율 맵, 토크–속도 특성', 'Motor and inverter efficiency maps, torque–speed characteristics', 1],
+  ['고속(최대 16,000 rpm)·과도·스텝 토크 시험', 'High-speed (up to 16,000 rpm), transient and step-torque tests', 1],
+  ['NVH: 회전 진동, 저속 토크 리플', 'NVH: rotational vibration, low-speed torque ripple', 1],
+  ['배터리 에뮬레이션 기반 인버터·모터 시험 (최대 1,200 V)', 'Inverter and motor tests with battery emulation (up to 1,200 V)', 1],
+  ['모터 에뮬레이션 기반 인버터 제어 검증, 고장 모사', 'Inverter control validation and fault emulation with motor emulation', 1],
+  ['셀 특성 평가 (OCV, 용량, DCIR, 주행 프로파일)', 'Cell characterization (OCV, capacity, DCIR, driving profiles)', 2],
+  ['모듈·팩 성능, 수명, 온도 시험 (−40 ~ +100 °C)', 'Module and pack performance, lifetime and temperature tests (−40 to +100 °C)', 2],
+  ['전기화학 임피던스 분석 (EIS)', 'Electrochemical impedance spectroscopy (EIS)', 2],
+  ['역설계, 부품 치수 검사 (0.05 – 4 m)', 'Reverse engineering, dimensional inspection of parts (0.05–4 m)', 3],
+  ['차량 개조, 시제품 제작, 지그·고정구 제작', 'Vehicle conversion, prototyping, jig and fixture fabrication', 4],
+];
+const steps = en ? [
+  { t: 'Inquiry', d: 'Tell us the test object, the tests you need and your schedule.' },
+  { t: 'Review & quote', d: 'We confirm fixtures, interfaces, safety conditions and the test plan.' },
+  { t: 'Testing', d: 'EV-LAB engineers support the tests, and you are welcome to take part.' },
+  { t: 'Report & data', d: 'We deliver the test report and raw data in an agreed format.' },
+] : [
+  { t: '문의', d: '시험 대상, 필요한 시험, 일정을 알려주세요.' },
+  { t: '검토·견적', d: '고정구·인터페이스·안전 조건과 시험 계획을 확인합니다.' },
+  { t: '시험', d: 'EV-LAB 엔지니어가 시험을 지원하며, 의뢰자 참여도 가능합니다.' },
+  { t: '보고·데이터', d: '시험 보고서와 원시 데이터를 협의한 형식으로 제공합니다.' },
+];
+---
+<Base title="EV-LAB" lang={lang}>
+  <PageHead label="Jeju EV-LAB" title={t('제주 EV-LAB', 'Jeju EV-LAB')}
+    lead={t('섀시 다이나모미터, 모터 다이나모미터, 배터리 팩·셀 시험장비를 갖춘 전동화자동차 시험시설입니다. 기업과 연구기관이 개발 시험, 검증, 시제품 제작에 이용할 수 있습니다.',
+      'A test facility for electrified vehicles, equipped with a chassis dynamometer, an e-motor dynamometer and battery pack and cell testers. Companies and research institutes can use it for development testing, validation and prototyping.')}
+    links={[{ href: '#equipment', label: t('시험장비', 'Equipment') }, { href: '#tests', label: t('시험 항목', 'Test capabilities') }, { href: '#use', label: t('이용 안내', 'How to use') }]} />
+
+  <section class="intro">
+    <div class="wrap intro-grid">
+      <img src="/media/evlab/entrance.jpg" alt={t('제주 EV-LAB 입구', 'Jeju EV-LAB entrance')} />
+      <div class="floors">
+        <div class="card"><div class="label">1F · Vehicle & powertrain</div><h3>{t('차량·구동계 시험', 'Vehicle & powertrain testing')}</h3><p>{t('섀시 다이나모미터, 모터 다이나모미터, 모터·배터리 에뮬레이터, 3D 스캐너, 차량 작업장', 'Chassis dynamometer, e-motor dynamometer, motor and battery emulators, 3D scanner, vehicle workshop')}</p></div>
+        <div class="card"><div class="label">2F · Battery lab</div><h3>{t('배터리 시험', 'Battery testing')}</h3><p>{t('배터리 팩·셀 시험기, 환경 챔버, 추가 충·방전기·열 챔버·임피던스 측정기', 'Battery pack and cell testers, environmental chamber, additional cyclers, thermal chambers and impedance analyzers')}</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipment" class="alt">
+    <div class="wrap">
+      <div class="label">Equipment</div>
+      <h2 class="sec">{t('시험장비', 'Test equipment')}</h2>
+      <div class="eq-list">
+        {equipment.map((e) => (
+          <article class="card eq" id={e.id}>
+            <div class:list={['ph', { contain: (e as any).fit === 'contain' }]}>
+              {(e as any).fit === 'contain' && <img class="bg" src={e.image} alt="" aria-hidden="true" loading="lazy" />}
+              <img src={e.image} alt={en ? e.nameEn : e.name} loading="lazy" />
+            </div>
+            <div class="body">
+              {!en && <div class="label">{e.nameEn}</div>}
+              <h3>{en ? e.nameEn : e.name}</h3>
+              {e.maker && <div class="maker">{tr(e, 'maker', lang)}</div>}
+              <p>{tr(e, 'desc', lang)}</p>
+              <ul class="specs">{(tr(e, 'specs', lang) as string[]).map((s) => <li>{s}</li>)}</ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="tests">
+    <div class="wrap">
+      <div class="label">What can be tested</div>
+      <h2 class="sec">{t('무엇을 시험할 수 있나요?', 'What can you test?')}</h2>
+      <div class="table-wrap" style="margin-top:24px">
+        <table class="matrix">
+          <thead><tr><th>{t('시험·활동', 'Test / activity')}</th>{cols.map((c) => <th class="c">{c}</th>)}</tr></thead>
+          <tbody>
+            {matrix.map(([ko, eng, k]) => (
+              <tr><td>{en ? eng : ko}</td>{cols.map((_, i) => <td class="c">{i === k ? <span class="dot" aria-label={t('가능', 'Available')}>●</span> : ''}</td>)}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="use" class="alt">
+    <div class="wrap">
+      <div class="label">How to use</div>
+      <h2 class="sec">{t('이용 안내', 'How to use EV-LAB')}</h2>
+      <ol class="steps">
+        {steps.map((s, i) => <li class="card"><span class="label">STEP {i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></li>)}
+      </ol>
+      <div class="use">
+        <div class="card"><h3>{t('이용 시간', 'Hours')}</h3>{en ? <p>Weekdays 09:00–18:00 (KST)<br />Closed on weekends and public holidays</p> : <p>평일 09:00–18:00<br />주말·공휴일 미운영</p>}</div>
+        <div class="card"><h3>{t('이용료', 'Fees')}</h3><p>{t('연구장비는 시간당 이용료가 있으며, 장비별 요금과 일정은 문의 시 안내합니다.', 'Equipment is charged by the hour. Rates and availability for each instrument are provided on inquiry.')}</p></div>
+        <div class="card"><h3>{t('문의', 'Contact')}</h3><p>{tr(site, 'phone', lang)}<br /><a href="mailto:cwrhim@kaist.ac.kr">cwrhim@kaist.ac.kr</a> {t('(EV-LAB 운영)', '(EV-LAB operations)')}</p></div>
+      </div>
+      <p class="addr">{t('위치', 'Location')}: {tr(site, 'address', lang)}, {tr(site, 'addressLab', lang)}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+.intro{padding-block:64px}
+.intro-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:stretch}
+.intro-grid img{width:100%;height:100%;max-height:360px;object-fit:cover;border-radius:18px}
+.floors{display:grid;gap:14px}
+.floors h3{margin:6px 0;font-size:19px}
+.floors p{margin:0;color:var(--text2);font-size:15px}
+.eq-list{display:grid;gap:18px;margin-top:28px}
+.eq{display:grid;grid-template-columns:320px 1fr;gap:28px;padding:20px}
+.eq .ph{position:relative;border-radius:12px;overflow:hidden;background:#fff;aspect-ratio:4/3}
+.eq .ph img{width:100%;height:100%;object-fit:cover}
+.eq .ph.contain img{position:relative;object-fit:contain}
+.eq .ph.contain .bg{position:absolute;inset:0;object-fit:cover;filter:blur(18px) brightness(.55);transform:scale(1.15)}
+.eq .note{position:absolute;right:8px;bottom:8px;font-size:11px;background:rgba(0,0,0,.6);color:#fff;padding:2px 8px;border-radius:6px}
+.eq h3{margin:6px 0 2px;font-size:22px}
+.maker{color:var(--accent);font-size:14px;font-weight:600;margin-bottom:10px}
+.eq p{margin:0 0 12px;color:var(--text2);font-size:15px}
+.specs{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.specs li{font-size:13.5px;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.matrix{min-width:820px}
+.matrix .c{text-align:center;width:110px}
+.dot{color:var(--accent)}
+.steps{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.steps h3{margin:6px 0;font-size:18px}
+.steps p{margin:0;color:var(--text2);font-size:14.5px}
+.use{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.use h3{margin:0 0 8px;font-size:17px}
+.use p{margin:0;color:var(--text2)}
+.use a{color:var(--brand)}
+.addr{color:var(--text2);margin-top:20px}
+@media(max-width:900px){.intro-grid,.eq{grid-template-columns:1fr}.steps,.use{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.steps,.use{grid-template-columns:1fr}}
+</style>

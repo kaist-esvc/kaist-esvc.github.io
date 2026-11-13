@@ -4,7 +4,9 @@
     "en": "Design",
     "ko": "설계",
     "scope": "전동화 파워트레인 · 배터리 · 에너지 저장",
+    "scopeEn": "Electrified powertrain · Battery · Energy storage",
     "summary": "배터리, 모터, 인버터, 열관리 시스템을 차량 전체의 에너지 효율 관점에서 설계합니다.",
+    "summaryEn": "We design batteries, motors, inverters and thermal management systems from the perspective of whole-vehicle energy efficiency.",
     "topics": [
       {
         "id": "powertrain-efficiency",
@@ -28,7 +30,9 @@
     "en": "Control",
     "ko": "제어",
     "scope": "지능형 차량 · 에너지 최적제어",
+    "scopeEn": "Intelligent vehicles · Optimal energy control",
     "summary": "최적제어와 학습 기반 제어로 주행 상황에 맞춰 차량의 움직임과 에너지 사용을 판단하고 제어합니다.",
+    "summaryEn": "With optimal and learning-based control, we decide and control vehicle motion and energy use to suit each driving situation.",
     "topics": [
       {
         "id": "eco-control",
@@ -52,7 +56,9 @@
     "en": "Operation",
     "ko": "운영",
     "scope": "모빌리티 서비스 · 충전 · 에너지 시스템",
+    "scopeEn": "Mobility services · Charging · Energy systems",
     "summary": "물류·이동서비스 차량과 충전·ESS·재생에너지를 하나의 시스템으로 보고 실제 운행 환경에서 효율적으로 운영합니다.",
+    "summaryEn": "We treat logistics and mobility-service fleets together with charging, ESS and renewables as one system, and operate them efficiently in real-world conditions.",
     "topics": [
       {
         "id": "routing",

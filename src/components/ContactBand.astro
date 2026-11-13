@@ -1,17 +1,21 @@
 ---
 import site from '../data/site.json';
+import { tr, type Lang } from '../lib/i18n';
+interface Props { lang?: Lang }
+const { lang = 'ko' } = Astro.props;
+const en = lang === 'en';
 ---
 <section class="cta-sec">
   <div class="wrap">
     <div class="cta reveal">
       <div>
         <div class="label" style="color:#bff5ea">Contact</div>
-        <h2>함께 연구하고 실증할 파트너를 기다립니다</h2>
-        <p>공동연구 · EV-LAB 장비 이용 · 기업 기술지원</p>
+        <h2>{en ? 'We welcome partners for joint research and validation' : '함께 연구하고 실증할 파트너를 기다립니다'}</h2>
+        <p>{en ? 'Joint research · EV-LAB testing services · Technical support for companies' : '공동연구 · EV-LAB 장비 이용 · 기업 기술지원'}</p>
       </div>
       <div class="direct">
-        <a href={`mailto:${site.email}`}><small>이메일</small>{site.email}</a>
-        <a href={`tel:${site.phoneIntl}`}><small>전화</small>{site.phone}</a>
+        <a href={`mailto:${site.email}`}><small>{en ? 'Email' : '이메일'}</small>{site.email}</a>
+        <a href={`tel:${site.phoneIntl}`}><small>{en ? 'Phone' : '전화'}</small>{tr(site, 'phone', lang)}</a>
       </div>
     </div>
   </div>

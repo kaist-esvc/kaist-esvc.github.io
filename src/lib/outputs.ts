@@ -2,13 +2,14 @@
 import pubsData from '../data/publications.json';
 import patentsData from '../data/patents.json';
 import projects from '../data/projects.json';
+import { tr, type Lang } from './i18n';
 
 export interface Pub {
   id: string; type: 'journal' | 'conference'; authors: string; title: string; venue: string;
   volume?: string; pages?: string; year: number; month?: number; link?: string; projects?: string[];
 }
 export interface Patent {
-  id: string; title: string; country: string; status: '출원' | '등록'; inventors: string;
+  id: string; title: string; country: string; status: '출원' | '등록'; inventors: string; titleEn?: string;
   appNo?: string; appDate?: string; regNo?: string; regDate?: string; link?: string; projects?: string[];
 }
 
@@ -22,7 +23,7 @@ export const patents = (patentsData as Patent[]).slice().sort((a, b) =>
 export const pubsOf = (pid: string) => pubs.filter((p) => p.projects?.includes(pid));
 export const patentsOf = (pid: string) => patents.filter((p) => p.projects?.includes(pid));
 
-export const projectName = (pid: string) => {
+export const projectName = (pid: string, lang: Lang = 'ko') => {
   const p = projects.find((x) => x.id === pid) as any;
-  return p?.short ?? p?.title ?? pid;
+  return tr(p, 'short', lang) ?? tr(p, 'title', lang) ?? pid;
 };

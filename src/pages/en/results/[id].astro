@@ -1,0 +1,9 @@
+---
+// 일반 연구과제 상세 페이지 (화면 구성: src/views/ProjectDetail.astro)
+import V from '../../../views/ProjectDetail.astro';
+import projects from '../../../data/projects.json';
+export function getStaticPaths() {
+  return projects.filter((p) => !p.flagship).map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+---
+<V p={Astro.props.p} lang="en" />

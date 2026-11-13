@@ -1,0 +1,151 @@
+---
+// 홈 화면 (국문 / 영문 공통). 문구는 t('국문', 'English') 형식으로 함께 적습니다.
+// 페이지 파일: src/pages/index.astro (국문), src/pages/en/index.astro (영문)
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ResearchAreas from '../components/ResearchAreas.astro';
+import ProgramCard from '../components/ProgramCard.astro';
+import PubList from '../components/PubList.astro';
+import NewsCard from '../components/NewsCard.astro';
+import ContactBand from '../components/ContactBand.astro';
+import projects from '../data/projects.json';
+import equipment from '../data/equipment.json';
+import { photoNews } from '../lib/news';
+import { tr, href as L, statusLabel, type Lang } from '../lib/i18n';
+
+interface Props { lang?: Lang }
+const { lang = 'ko' } = Astro.props;
+const en = lang === 'en';
+const t = (ko: string, eng: string) => (en ? eng : ko);
+
+const flagship = projects.filter((p) => p.flagship);
+const research = projects.filter((p) => !p.flagship && (p as any).kind !== '지원').slice(0, 3);
+const featured = equipment.filter((e) => e.featured);
+---
+<Base transparentHeader lang={lang}>
+  <Hero lang={lang} />
+
+  <!-- 연구 영역: 주제 수준 요약 -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">What we do</div><h2 class="sec">{t('연구 영역', 'Research areas')}</h2></div>
+      </div>
+      <div style="margin-top:40px"><ResearchAreas lang={lang} /></div>
+    </div>
+  </section>
+
+  <!-- 대표 과제 -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">Flagship projects</div><h2 class="sec">{t('대표 과제', 'Flagship projects')}</h2></div>
+        <a class="more" href={L(lang, '/results/')}>{t('전체 과제', 'All projects')}</a>
+      </div>
+      <div class="grid-2 reveal" style="margin-top:40px">
+        {flagship.map((p) => <ProgramCard p={p} lang={lang} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- EV-LAB 요약: 장비 이름에 커서를 올리면 왼쪽 사진이 바뀝니다 -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">Jeju EV-LAB</div><h2 class="sec">{t('무엇을 시험할 수 있나요?', 'What can you test?')}</h2></div>
+        <a class="more" href={L(lang, '/ev-lab/')}>{t('전체 장비 보기', 'All equipment')}</a>
+      </div>
+      <p class="lead reveal" style="margin-top:14px">{t('약 40억 원 규모의 시험장비로 전동화자동차의 부품부터 완성차까지 시험합니다.', 'About KRW 4 billion of test equipment for electrified vehicles, from components to complete vehicles.')}</p>
+      <div class="evlab-home reveal">
+        <div class="ph" id="evlab-ph">
+          {featured.map((e, i) => (
+            <figure class:list={['shot', { on: i === 0, contain: e.fit === 'contain' }]} data-i={i}>
+              {e.fit === 'contain' && <img class="bg" src={e.image} alt="" aria-hidden="true" loading="lazy" />}
+              <img class="fg" src={e.image} alt={en ? `Jeju EV-LAB ${e.nameEn}` : `제주 EV-LAB ${e.name}`} loading="lazy" />
+            </figure>
+          ))}
+        </div>
+        <ul class="equip hoverable" id="evlab-list">
+          {featured.map((e, i) => (
+            <li class:list={{ on: i === 0 }} data-i={i} tabindex="0"><span class="ix">{String(i + 1).padStart(2, '0')}</span><div><b>{en ? e.nameEn : e.name}</b><p>{(tr(e, 'specs', lang) as string[]).slice(0, 2).join(' · ')}</p></div></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 연구성과 요약 -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="label">Projects &amp; Publications</div><h2 class="sec">{t('연구과제와 성과', 'Projects & publications')}</h2></div>
+        <a class="more" href={L(lang, '/results/')}>{t('전체 성과', 'All outputs')}</a>
+      </div>
+      <div class="grid-2 reveal" style="margin-top:40px;gap:40px">
+        <div>
+          <h3 class="col-h">{t('최근 논문', 'Recent publications')}</h3>
+          <PubList limit={3} lang={lang} />
+        </div>
+        <div>
+          <h3 class="col-h">{t('연구과제', 'Research projects')}</h3>
+          <div style="display:grid;gap:12px">
+            {research.map((p) => (
+              <a class="pcard" href={L(lang, `/results/${p.id}/`)}>
+                <b><span class:list={['st', p.status === '진행' ? 'on' : 'done']}>{statusLabel(p.status, lang)}</span>{tr(p, 'title', lang)}</b>
+                <span class="yr">{p.period}</span>
+                <span>{tr(p, 'sponsor', lang)}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 소식 (국문만) -->
+  {!en && (
+    <section>
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><div class="label">News</div><h2 class="sec">소식</h2></div>
+          <a class="more" href="/news/">전체 소식</a>
+        </div>
+        <div class="grid-3 reveal" style="margin-top:36px">
+          {photoNews.slice(0, 3).map((n) => <NewsCard item={n} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ContactBand lang={lang} />
+</Base>
+
+<style>
+.evlab-home{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start;margin-top:36px}
+.evlab-home .ph{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:var(--surface)}
+.evlab-home .shot{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .35s ease}
+.evlab-home .shot.on{opacity:1}
+.evlab-home .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.evlab-home .shot.contain .fg{object-fit:contain}
+.evlab-home .shot .bg{filter:blur(18px) brightness(.55);transform:scale(1.15)}
+.equip.hoverable li{cursor:pointer;transition:background .2s}
+.equip.hoverable li:hover,.equip.hoverable li.on{background:var(--surface)}
+.equip.hoverable li.on b{color:var(--accent)}
+.col-h{font-size:18px;margin:0 0 12px}
+@media(max-width:900px){.evlab-home{grid-template-columns:1fr}}
+</style>
+
+<script>
+  const list = document.getElementById('evlab-list');
+  const shots = document.querySelectorAll('#evlab-ph .shot');
+  const show = (i: string) => {
+    shots.forEach((s) => s.classList.toggle('on', (s as HTMLElement).dataset.i === i));
+    list?.querySelectorAll('li').forEach((li) => li.classList.toggle('on', li.dataset.i === i));
+  };
+  list?.querySelectorAll('li').forEach((li) => {
+    const go = () => show(li.dataset.i!);
+    li.addEventListener('mouseenter', go);
+    li.addEventListener('focus', go);
+    li.addEventListener('click', go);
+  });
+</script>

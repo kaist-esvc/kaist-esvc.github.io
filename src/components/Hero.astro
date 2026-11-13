@@ -1,5 +1,9 @@
 ---
 // 홈 대표 영상: 영상 2개 + 이미지 2장을 차례로 재생 (파일은 public/media/hero/)
+import type { Lang } from '../lib/i18n';
+interface Props { lang?: Lang }
+const { lang = 'ko' } = Astro.props;
+const en = lang === 'en';
 const slides = [
   { type: 'video', src: '/media/hero/hero-1.mp4', poster: '/media/hero/hero-1-poster.jpg' },
   { type: 'video', src: '/media/hero/hero-2.mp4', poster: '/media/hero/hero-2-poster.jpg' },
@@ -7,7 +11,7 @@ const slides = [
   { type: 'image', src: '/media/hero/hero-4.jpg', dur: 8000 },
 ];
 ---
-<section class="hero" id="hero" aria-label="센터 대표 영상">
+<section class="hero" id="hero" aria-label={en ? "Center showcase" : "센터 대표 영상"}>
   <div class="slides">
     {slides.map((s, i) => (
       <div class:list={['slide', { on: i === 0, kb: s.type === 'image' }]} data-type={s.type} data-dur={s.dur}>
@@ -19,21 +23,29 @@ const slides = [
   </div>
 
   <div class="wrap">
-    <div class="hero-copy">
-      <h1>전동화·지능형 모빌리티의<br /><em>설계·제어·운영</em> 원천기술</h1>
-      <p class="tag">제주의 도로와 에너지 위에서 실증합니다.</p>
-      <p class="desc">KAIST 친환경스마트자동차연구센터(ESVC)는 제주를 거점으로 전동화자동차와 에너지 시스템이 효율적으로 함께 움직이는 기술을 연구합니다. EV-LAB의 시험 인프라와 제주의 실제 운행 환경에서 연구 성과를 검증하고 현장에 적용합니다.</p>
-    </div>
+    {en ? (
+      <div class="hero-copy">
+        <h1><em>Design, control &amp; operation</em><br />of electrified, intelligent mobility</h1>
+        <p class="tag">Validated on Jeju's roads and energy systems.</p>
+        <p class="desc">Based in Jeju, the KAIST Eco-friendly Smart Vehicle Research Center (ESVC) develops technologies that let electrified vehicles and energy systems work together efficiently. We validate our research with the test infrastructure of the Jeju EV-LAB and in Jeju's real-world operating environment, and bring it into practice.</p>
+      </div>
+    ) : (
+      <div class="hero-copy">
+        <h1>전동화·지능형 모빌리티의<br /><em>설계·제어·운영</em> 원천기술</h1>
+        <p class="tag">제주의 도로와 에너지 위에서 실증합니다.</p>
+        <p class="desc">KAIST 친환경스마트자동차연구센터(ESVC)는 제주를 거점으로 전동화자동차와 에너지 시스템이 효율적으로 함께 움직이는 기술을 연구합니다. EV-LAB의 시험 인프라와 제주의 실제 운행 환경에서 연구 성과를 검증하고 현장에 적용합니다.</p>
+      </div>
+    )}
   </div>
 
   <div class="hero-bar">
     <div class="wrap">
       <div class="steps">
         {slides.map((_, i) => (
-          <button class:list={['step', { on: i === 0 }]} type="button" aria-label={`장면 ${i + 1}`}><span class="track"><span class="fill"></span></span></button>
+          <button class:list={['step', { on: i === 0 }]} type="button" aria-label={en ? `Scene ${i + 1}` : `장면 ${i + 1}`}><span class="track"><span class="fill"></span></span></button>
         ))}
       </div>
-      <button class="pause" id="pauseBtn" type="button" aria-label="일시정지">❚❚</button>
+      <button class="pause" id="pauseBtn" type="button" aria-label={en ? "Pause" : "일시정지"}>❚❚</button>
     </div>
   </div>
 </section>
@@ -108,8 +120,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#5bb4ff,var(--accent));
   pb.addEventListener('click', () => {
     paused = !paused; hero.classList.toggle('paused', paused);
     const v = vid(cur);
-    if (paused) { clearTimeout(timer); remain -= Date.now() - startedAt; v?.pause(); pb.textContent = '▶'; pb.setAttribute('aria-label', '재생'); }
-    else { v?.play().catch(() => {}); arm(Math.max(remain, 300)); pb.textContent = '❚❚'; pb.setAttribute('aria-label', '일시정지'); }
+    if (paused) { clearTimeout(timer); remain -= Date.now() - startedAt; v?.pause(); pb.textContent = '▶'; pb.setAttribute('aria-label', document.documentElement.lang === 'en' ? 'Play' : '재생'); }
+    else { v?.play().catch(() => {}); arm(Math.max(remain, 300)); pb.textContent = '❚❚'; pb.setAttribute('aria-label', document.documentElement.lang === 'en' ? 'Pause' : '일시정지'); }
   });
   document.addEventListener('visibilitychange', () => { const v = vid(cur); if (document.hidden) v?.pause(); else if (!paused) v?.play().catch(() => {}); });
   if (reduce) { hero.classList.add('paused'); pb.textContent = '▶'; }

@@ -17,6 +17,16 @@ KAIST 친환경스마트자동차연구센터 홈페이지 소스입니다. Astr
 | 연락처·주소 | `src/data/site.json` |
 | 상단 메뉴 | `src/data/nav.json` |
 | 사진·영상 | `public/media/` (대표 영상은 `public/media/hero/`) |
+| 페이지 문구 (국문·영문) | `src/views/*.astro` — 문구가 `t('국문', 'English')` 형태로 함께 들어 있습니다 |
+
+## 영문판 (`/en/`)
+
+- 국문과 영문은 같은 화면 파일(`src/views/`)과 같은 데이터를 씁니다. `src/pages/`(국문)와 `src/pages/en/`(영문)는 언어만 지정하는 짧은 파일입니다.
+- 데이터의 영문은 같은 이름 뒤에 `En`을 붙인 칸에 넣습니다. 예: `title` → `titleEn`, `sponsor` → `sponsorEn`, 장비 `desc` → `descEn`, `specs` → `specsEn`, 연혁 `text` → `textEn`.
+- **영문 칸을 비워 두면 국문이 대신 표시됩니다.** 새 과제를 넣을 때 영문을 몰라도 사이트는 깨지지 않습니다.
+- 사업비는 자동으로 바뀝니다 (`54억 원` → `KRW 5.4 billion`).
+- 논문 제목·저자·학회명은 원문 그대로 씁니다 (영문 칸 없음).
+- 영문판에는 소식, 구성원 표(이름·이메일), 과제 책임자 이름, 특허 발명자를 싣지 않습니다.
 
 ### 논문 한 건의 형식 (`src/data/publications.json`)
 

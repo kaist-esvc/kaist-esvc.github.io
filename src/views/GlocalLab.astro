@@ -1,0 +1,190 @@
+---
+// 대표 과제: 글로컬랩 (국문 / 영문 공통). 페이지 파일: src/pages/results/glocal-lab.astro, src/pages/en/results/glocal-lab.astro
+// 출처: 2026년도 글로컬랩 연구계획서(컨소시엄형), 센터 제주사업 현황(2026.9)
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Facts from '../components/Facts.astro';
+import PubList from '../components/PubList.astro';
+import projects from '../data/projects.json';
+import { tr, budget, href as L, type Lang } from '../lib/i18n';
+
+interface Props { lang?: Lang }
+const { lang = 'ko' } = Astro.props;
+const en = lang === 'en';
+const t = (ko: string, eng: string) => (en ? eng : ko);
+const p = projects.find((x) => x.id === 'glocal-lab')! as any;
+
+const stages = en ? [
+  { n: 'Phase 1', y: '2026 – 2029', t: 'Core technologies and consortium foundation', d: 'Secure core technologies for the three technical goals: high energy density, ultra-lightweight design and optimal operation' },
+  { n: 'Phase 2', y: '2029 – 2032', t: 'Technology convergence and advanced validation', d: 'Improve system-level performance by combining materials, manufacturing and control; grow the global R&D platform' },
+  { n: 'Phase 3', y: '2032 – 2035', t: 'Integrated system validation and commercialization', d: 'Quantify range gains at vehicle level and become a self-sustaining glocal research institute' },
+] : [
+  { n: '1단계', y: '2026 – 2029', t: '핵심 요소기술 개발 및 컨소시엄 기반 구축', d: '고에너지밀도·초경량·최적운용 3대 기술목표의 원천기술 확보' },
+  { n: '2단계', y: '2029 – 2032', t: '기술 융복합과 실증 고도화', d: '소재·부품–생산·설계–지능·제어 융합으로 시스템 단위 성능 향상, 글로벌 R&D 플랫폼 활성화' },
+  { n: '3단계', y: '2032 – 2035', t: '통합 시스템 실증·상용화', d: '주행거리 향상 효과를 실차 수준에서 정량 검증, 자립형 글로컬 거점 연구소로 도약' },
+];
+// KAIST에 직접 할당된 1단계 핵심연구개발 과제 (연구계획서 기준)
+const control = en ? [
+  'Integrated optimal energy control strategy for mobility systems',
+  'Thermal management strategy considering system efficiency and durability',
+  'Energy-efficient optimal route generation considering traffic conditions',
+  'System performance optimization design and control considering battery degradation',
+  'Efficiency-optimal design and control of electric drive systems',
+] : [
+  '모빌리티 시스템 통합 에너지 최적제어 전략 개발',
+  '시스템 효율과 내구성을 고려한 열관리 전략 개발',
+  '교통환경을 고려한 에너지 효율 최적경로 생성기술 개발',
+  '배터리 퇴화를 고려한 시스템 성능 최적화 설계 및 제어',
+  '전기구동시스템 효율 최적화 설계 및 제어',
+];
+const rows: [string, string][] = en ? [
+  ['Program', 'Glocal Lab, Basic Research Program in Science & Engineering'],
+  ['Funded by', tr(p, 'sponsor', lang)],
+  ['Consortium', tr(p, 'lead', lang)],
+  ['Period', `${p.period} (3 phases)`],
+  ['KAIST budget', budget(p.budget, lang)!],
+] : [
+  ['사업명', '이공분야 학술연구지원사업 글로컬랩'],
+  ['지원', p.sponsor],
+  ['컨소시엄', p.lead],
+  ['기간', `${p.period} (3단계)`],
+  ['KAIST 연구비', p.budget],
+  ['KAIST 책임자', p.pi],
+];
+const sv = {
+  areas: t('3대 기술 분야', '3 TECHNOLOGY AREAS'), goals: t('3대 기술목표', '3 TECHNICAL GOALS'), final: t('최종 목표', 'ULTIMATE GOAL'),
+  f1: t('소재·부품', 'Materials & components'), o1: t('국립한밭대학교', 'Hanbat National University'),
+  f2: t('생산·설계', 'Manufacturing & design'), o2: t('국립공주대학교 (주관)', 'Kongju National University (lead)'),
+  f3: t('지능·제어', 'Intelligent control'), o3: t('KAIST · 차량 통합제어, 실차 시험', 'KAIST · vehicle integration & testing'),
+  g1: t('고에너지밀도', 'High energy density'), g2: t('초경량', 'Ultra-lightweight'), g3: t('최적운용', 'Optimal operation'),
+  range: t('주행거리 극대화', 'Maximize driving range'), num: t('사용 가능한 에너지', 'Usable energy'), den: t('단위거리당 에너지 소비량', 'Energy use per distance'),
+  val: t('제주 EV-LAB 실차 시험과 제주 도로의 가혹 환경 주행으로 통합 기술을 실차 수준에서 검증', "Validated at vehicle level through Jeju EV-LAB testing and driving on Jeju's demanding roads"),
+};
+---
+<Base title={tr(p, 'short', lang)} lang={lang}>
+  <PageHead label="Flagship project · Glocal Lab" title={t('글로컬랩 · 글로벌생산제조기술연구소', 'Glocal Lab · Global Manufacturing Technology Research Institute')}
+    lead={t('소재·부품, 생산·설계, 지능·제어 기술을 하나로 묶어 친환경 모빌리티의 주행거리를 극대화하는 지역 기반 글로벌 연구개발 플랫폼입니다.',
+      'A region-based global R&D platform that combines materials and components, manufacturing and design, and intelligent control to maximize the driving range of eco-friendly mobility.')} />
+
+  <section>
+    <div class="wrap">
+      <a class="more back" href={L(lang, '/results/')}>{t('연구성과', 'Research')}</a>
+      <Facts rows={rows} />
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="label">Concept</div>
+      <h2 class="sec">{t('세 기술의 융합으로 주행거리를 극대화합니다', 'Three technologies combined to maximize driving range')}</h2>
+      <p class="lead">{t("주행거리는 '사용 가능한 에너지 ÷ 단위거리당 에너지 소비량'입니다. 배터리를 더 싣는 대신 에너지를 저장·전달·소비하는 전 과정의 손실을 줄이기 위해, 세 기관이 각자의 강점 기술을 하나의 차량으로 통합합니다.",
+        'Driving range equals usable energy divided by energy use per distance. Instead of adding more batteries, the three institutions combine their strengths in a single vehicle to cut losses across the whole chain of storing, delivering and consuming energy.')}</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 1000 470" role="img" aria-label={t('글로컬랩 개념도: 소재·부품(국립한밭대), 생산·설계(국립공주대), 지능·제어(KAIST)가 고에너지밀도·초경량·최적운용 목표를 거쳐 주행거리 극대화로 이어지고 제주에서 실차 검증', 'Glocal Lab concept: materials & components (Hanbat), manufacturing & design (Kongju) and intelligent control (KAIST) lead through high energy density, ultra-lightweight design and optimal operation to maximum driving range, validated in Jeju')}>
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f7592"/></marker>
+            <linearGradient id="kg" x1="0" x2="1"><stop offset="0" stop-color="#1565c0"/><stop offset="1" stop-color="#0e8f86"/></linearGradient>
+          </defs>
+          <text x="20" y="28" fill="#38d9b4" font-size="13" font-family="JetBrains Mono,monospace" letter-spacing="2">{sv.areas}</text>
+          <text x="370" y="28" fill="#38d9b4" font-size="13" font-family="JetBrains Mono,monospace" letter-spacing="2">{sv.goals}</text>
+          <text x="700" y="28" fill="#38d9b4" font-size="13" font-family="JetBrains Mono,monospace" letter-spacing="2">{sv.final}</text>
+
+          <g font-family="Pretendard Variable,Pretendard,sans-serif">
+            <rect x="20" y="45" width="280" height="84" rx="12" fill="#10233a" stroke="rgba(120,210,230,.3)"/>
+            <text x="40" y="80" fill="#e3eaf4" font-size="20" font-weight="700">{sv.f1}</text>
+            <text x="40" y="108" fill="#a2b3cc" font-size="15">{sv.o1}</text>
+
+            <rect x="20" y="149" width="280" height="84" rx="12" fill="#10233a" stroke="rgba(120,210,230,.3)"/>
+            <text x="40" y="184" fill="#e3eaf4" font-size="20" font-weight="700">{sv.f2}</text>
+            <text x="40" y="212" fill="#a2b3cc" font-size="15">{sv.o2}</text>
+
+            <rect x="20" y="253" width="280" height="84" rx="12" fill="url(#kg)"/>
+            <text x="40" y="288" fill="#fff" font-size="20" font-weight="700">{sv.f3}</text>
+            <text x="40" y="316" fill="#d9fff6" font-size="15">{sv.o3}</text>
+
+            <g fill="#10233a" stroke="#3aa0ff" stroke-opacity=".5">
+              <rect x="370" y="55" width="230" height="64" rx="32"/>
+              <rect x="370" y="159" width="230" height="64" rx="32"/>
+              <rect x="370" y="263" width="230" height="64" rx="32"/>
+            </g>
+            <text x="485" y="94" text-anchor="middle" fill="#e3eaf4" font-size="18" font-weight="600">{sv.g1}</text>
+            <text x="485" y="198" text-anchor="middle" fill="#e3eaf4" font-size="18" font-weight="600">{sv.g2}</text>
+            <text x="485" y="302" text-anchor="middle" fill="#e3eaf4" font-size="18" font-weight="600">{sv.g3}</text>
+
+            <g stroke="#5f7592" stroke-width="1.6" fill="none" marker-end="url(#ah)">
+              <path d="M300 87 L366 87"/><path d="M300 191 L366 191"/><path d="M300 295 L366 295"/>
+              <path d="M300 100 L366 182" stroke-dasharray="4 4"/><path d="M300 282 L366 200" stroke-dasharray="4 4"/>
+              <path d="M600 87 C650 87 650 170 696 185"/><path d="M600 191 L696 191"/><path d="M600 295 C650 295 650 212 696 197"/>
+            </g>
+
+            <rect x="700" y="120" width="280" height="142" rx="16" fill="#0d3f86" stroke="#3aa0ff"/>
+            <text x="840" y="168" text-anchor="middle" fill="#fff" font-size={en ? 21 : 23} font-weight="800">{sv.range}</text>
+            <text x="840" y="200" text-anchor="middle" fill="#cfe0f2" font-size="14">{sv.num}</text>
+            <line x1="770" y1="210" x2="910" y2="210" stroke="#cfe0f2" stroke-width="1"/>
+            <text x="840" y="230" text-anchor="middle" fill="#cfe0f2" font-size="14">{sv.den}</text>
+
+            <rect x="20" y="372" width="960" height="76" rx="14" fill="rgba(56,217,180,.12)" stroke="#38d9b4" stroke-opacity=".5"/>
+            <text x="44" y="404" fill="#38d9b4" font-size="13" font-family="JetBrains Mono,monospace" letter-spacing="2">VALIDATION IN JEJU</text>
+            <text x="44" y="430" fill="#e3eaf4" font-size="17">{sv.val}</text>
+            <path d="M840 262 L840 368" stroke="#38d9b4" stroke-width="1.6" fill="none" marker-end="url(#ah)"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap two">
+      <div>
+        <div class="label">KAIST role</div>
+        <h2 class="sec">{t('KAIST의 역할', "KAIST's role")}</h2>
+        <p class="lead">{t('KAIST는 차량 통합제어와 실차 시험을 맡아, 소재·부품과 생산·설계의 성과가 실제 주행에서 얼마나 주행거리를 늘리는지 검증합니다. 실차 검증은 제주 EV-LAB을 중심으로 수행합니다.',
+          'KAIST leads integrated vehicle control and vehicle testing, verifying how much the advances in materials, components, manufacturing and design extend range in real driving. Vehicle validation is carried out mainly at the Jeju EV-LAB.')}</p>
+      </div>
+      <div>
+        <h3 class="col-h">{t('KAIST 1단계 핵심연구개발 과제', 'KAIST core R&D tasks in Phase 1')}</h3>
+        <ul class="topics">{control.map((c) => <li>{c}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="label">Roadmap</div>
+      <h2 class="sec">{t('단계별 목표', 'Roadmap')}</h2>
+      <div class="grid-3" style="margin-top:28px">
+        {stages.map((s, i) => (
+          <div class:list={['card', 'stage', { now: i === 0 }]}>
+            <div class="label">{s.n} · {s.y}</div>
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="label">Publications</div>
+      <h2 class="sec">{t('이 사업을 사사한 논문', 'Publications from this project')}</h2>
+      <div style="margin-top:20px"><PubList project="glocal-lab" lang={lang} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.back::after{content:none}.back::before{content:"←"}
+.diagram{margin-top:32px;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--bg);overflow-x:auto}
+.diagram svg{width:100%;min-width:760px;height:auto;display:block}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.col-h{font-size:17px;margin:6px 0 14px}
+.topics{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.topics li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;color:var(--text2);font-size:15px}
+.topics li{color:var(--text)}
+.stage h3{margin:8px 0;font-size:18px}
+.stage p{margin:0;color:var(--text2);font-size:15px}
+.stage.now{border-color:rgba(56,217,180,.6);background:linear-gradient(160deg,rgba(21,101,192,.35),rgba(14,143,134,.25))}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+</style>

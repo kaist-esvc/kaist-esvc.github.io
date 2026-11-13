@@ -1,0 +1,44 @@
+---
+// 문의 (국문 / 영문 공통). 페이지 파일: src/pages/contact.astro, src/pages/en/contact.astro
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import site from '../data/site.json';
+import { tr, type Lang } from '../lib/i18n';
+
+interface Props { lang?: Lang }
+const { lang = 'ko' } = Astro.props;
+const en = lang === 'en';
+const t = (ko: string, eng: string) => (en ? eng : ko);
+const mapUrl = en
+  ? `https://www.google.com/maps/search/${encodeURIComponent('330 Cheomdan-ro, Jeju-si, Jeju-do')}`
+  : `https://map.naver.com/p/search/${encodeURIComponent('제주시 첨단로 330')}`;
+---
+<Base title={t('문의', 'Contact')} lang={lang}>
+  <PageHead label="Contact" title={t('문의', 'Contact')} />
+
+  <section>
+    <div class="wrap">
+      <div class="card contact">
+        <div>
+          <div class="label">{t('대표 연락처', 'General inquiries')}</div>
+          <a href={`mailto:${site.email}`}><small>{t('이메일', 'Email')}</small>{site.email}</a>
+          <a href={`tel:${site.phoneIntl}`}><small>{t('전화', 'Phone')}</small>{tr(site, 'phone', lang)}</a>
+        </div>
+        <div>
+          <div class="label">{t('주소', 'Address')}</div>
+          <p>{tr(site, 'address', lang)}<br />{tr(site, 'addressDetail', lang)}</p>
+          <a class="more" href={mapUrl} target="_blank" rel="noopener">{t('지도에서 보기', 'View on map')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:36px 40px}
+.contact .label{margin-bottom:14px}
+.contact > div > a:not(.more){display:block;font-size:21px;font-weight:700;margin-bottom:14px}
+.contact small{display:block;font-size:13px;font-weight:500;color:var(--text2)}
+.contact p{margin:0 0 12px;font-size:17px;line-height:1.7}
+@media(max-width:760px){.contact{grid-template-columns:1fr;gap:24px;padding:26px 24px}}
+</style>

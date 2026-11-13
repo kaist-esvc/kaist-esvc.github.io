@@ -1,15 +1,29 @@
 {
   "director": {
     "name": "최경환",
+    "nameEn": "Kyunghwan Choi",
     "title": "센터장",
+    "titleEn": "Director",
     "affiliation": "KAIST 조천식모빌리티대학원 교수",
+    "affiliationEn": "Professor, Cho Chun Shik Graduate School of Mobility, KAIST",
     "lab": "모빌리티 지능화 및 제어 연구실 (MIC Lab)",
+    "labEn": "Mobility Intelligence & Control Lab (MIC Lab)",
     "labUrl": "https://kaist-mic-lab.github.io/",
     "photo": "/media/people/kchoi.jpg"
   },
   "teams": [
-    { "name": "연구팀", "desc": "연구과제 기획·수행, EV-LAB 운영, 산업화 연계" },
-    { "name": "행정팀", "desc": "센터 행정, 기업 지원 및 사업 운영" }
+    {
+      "name": "연구팀",
+      "nameEn": "Research Team",
+      "desc": "연구과제 기획·수행, EV-LAB 운영, 산업화 연계",
+      "descEn": "Research planning and execution, EV-LAB operation, industry linkage"
+    },
+    {
+      "name": "행정팀",
+      "nameEn": "Administration Team",
+      "desc": "센터 행정, 기업 지원 및 사업 운영",
+      "descEn": "Center administration, company support and program operation"
+    }
   ],
   "research": [
     { "name": "임철우", "position": "연구교수", "duty": "EV-LAB 운영, 연구기획 및 수행, 기업 기술지원", "email": "cwrhim@kaist.ac.kr" },

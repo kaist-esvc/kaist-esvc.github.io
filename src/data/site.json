@@ -4,10 +4,15 @@
   "short": "ESVC",
   "email": "kaistesvc@kaist.ac.kr",
   "phone": "064-721-3571",
+  "phoneEn": "+82-64-721-3571",
   "phoneIntl": "+82647213571",
   "address": "제주특별자치도 제주시 첨단로 330",
+  "addressEn": "330 Cheomdan-ro, Jeju-si, Jeju-do, Republic of Korea",
   "addressDetail": "제주첨단과학기술단지 세미양빌딩 A동 3층 (연구센터) · B동 1–2층 (EV-LAB)",
+  "addressDetailEn": "Semiyang Building, Jeju Science Park — Bldg. A 3F (Research Center) · Bldg. B 1–2F (EV-LAB)",
   "addressLab": "제주첨단과학기술단지 세미양빌딩 B동 1–2층",
+  "addressLabEn": "Semiyang Building B 1–2F, Jeju Science Park",
   "description": "KAIST 친환경스마트자동차연구센터는 제주를 거점으로 전동화·지능형 모빌리티 기술을 연구하고, EV-LAB과 제주 현장에서 실증합니다.",
+  "descriptionEn": "The KAIST Eco-friendly Smart Vehicle Research Center develops electrified and intelligent mobility technologies in Jeju and validates them at the Jeju EV-LAB and on Jeju roads.",
   "noindex": true
 }

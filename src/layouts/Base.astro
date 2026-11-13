@@ -2,15 +2,27 @@
 import '../styles/global.css';
 import site from '../data/site.json';
 import nav from '../data/nav.json';
+import { tr, href as L, type Lang } from '../lib/i18n';
 
-interface Props { title?: string; description?: string; transparentHeader?: boolean }
-const { title, description = site.description, transparentHeader = false } = Astro.props;
-const fullTitle = title ? `${title} | ${site.nameKo}` : `${site.nameKo} | ${site.short}`;
+interface Props { title?: string; description?: string; transparentHeader?: boolean; lang?: Lang }
+const { title, lang = 'ko', transparentHeader = false } = Astro.props;
+const en = lang === 'en';
+const description = Astro.props.description ?? tr(site, 'description', lang);
+const siteName = en ? `KAIST ${site.nameEn}` : site.nameKo;
+const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | ${site.short}`;
 const path = Astro.url.pathname;
-const isActive = (href: string) => path.startsWith(href);
+const menu = nav
+  .filter((n: any) => !(en && n.koOnly))
+  .map((n: any) => ({ href: L(lang, n.href), label: tr(n, 'label', lang) }));
+const isActive = (h: string) => path.startsWith(h);
+// 언어 전환: 같은 페이지의 다른 언어판으로. 영문판이 없는 페이지(소식)는 영문 홈으로.
+const koPath = en ? path.replace(/^\/en/, '') || '/' : path;
+const enPath = koPath.startsWith('/news') ? '/en/' : '/en' + koPath;
+const logo = en ? '/logo/esvc-en-horizontal-light.svg' : '/logo/esvc-ko-horizontal-light.svg';
+const home = en ? '/en/' : '/';
 ---
 <!doctype html>
-<html lang="ko">
+<html lang={lang}>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,15 +38,15 @@ const isActive = (href: string) => path.startsWith(href);
 <body>
   <header class:list={['site-header', { solid: !transparentHeader }]} data-transparent={transparentHeader ? '1' : '0'}>
     <div class="wrap nav">
-      <a class="logo" href="/"><img src="/logo/esvc-ko-horizontal-light.svg" alt={`${site.nameKo} (${site.short})`} width="230" height="34" /></a>
-      <nav class="menu" aria-label="주 메뉴">
-        {nav.map((n) => <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>)}
+      <a class="logo" href={home}><img src={logo} alt={`${siteName} (${site.short})`} width="230" height="34" /></a>
+      <nav class="menu" aria-label={en ? "Main menu" : "주 메뉴"}>
+        {menu.map((n) => <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>)}
       </nav>
-      <span class="lang"><b>KO</b> / EN</span>
-      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobileMenu">메뉴</button>
+      <span class="lang">{en ? <><a href={koPath} lang="ko">KO</a> / <b>EN</b></> : <><b>KO</b> / <a href={enPath} lang="en">EN</a></>}</span>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobileMenu">{en ? 'Menu' : '메뉴'}</button>
     </div>
-    <nav class="mobile-menu" id="mobileMenu" aria-label="모바일 메뉴">
-      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+    <nav class="mobile-menu" id="mobileMenu" aria-label={en ? "Mobile menu" : "모바일 메뉴"}>
+      {menu.map((n) => <a href={n.href}>{n.label}</a>)}
     </nav>
   </header>
 
@@ -44,15 +56,15 @@ const isActive = (href: string) => path.startsWith(href);
     <div class="wrap">
       <div class="cols">
         <div>
-          <img src="/logo/esvc-ko-horizontal-light.svg" alt={`${site.nameKo} (${site.short})`} width="250" height="37" style="margin-bottom:14px" />
-          <p>{site.email} · {site.phone}</p>
+          <img src={logo} alt={`${siteName} (${site.short})`} width="250" height="37" style="margin-bottom:14px" />
+          <p>{site.email} · {tr(site, 'phone', lang)}</p>
         </div>
         <div>
-          <b>오시는 길</b>
-          <p>{site.address}<br />{site.addressDetail}</p>
+          <b>{en ? 'Location' : '오시는 길'}</b>
+          <p>{tr(site, 'address', lang)}<br />{tr(site, 'addressDetail', lang)}</p>
         </div>
-        <nav aria-label="하단 메뉴">
-          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        <nav aria-label={en ? "Footer menu" : "하단 메뉴"}>
+          {menu.map((n) => <a href={n.href}>{n.label}</a>)}
         </nav>
       </div>
       <div class="copy">© {new Date().getFullYear()} KAIST {site.nameEn}. All rights reserved.</div>
