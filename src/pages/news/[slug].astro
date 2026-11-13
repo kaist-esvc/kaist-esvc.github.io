@@ -19,7 +19,12 @@ const { Content } = item;
   </div>
   <section>
     <div class="wrap">
-      {item.image && <img class="cover" src={item.image} alt="" />}
+      {item.image && (
+        <figure class:list={['cover', { full: item.imageFit === 'contain' }]}>
+          <img src={item.image} alt="" />
+          {item.imageCredit && <figcaption>{item.imageCredit}</figcaption>}
+        </figure>
+      )}
       <div class="prose"><Content /></div>
     </div>
   </section>
@@ -28,5 +33,8 @@ const { Content } = item;
 <style>
 .back::after{content:none}.back::before{content:"←"}
 .date{color:var(--text3);font-family:var(--mono);font-size:14px}
-.cover{border-radius:16px;max-height:420px;width:100%;object-fit:cover;margin-bottom:36px}
+.cover{margin:0 0 36px}
+.cover img{display:block;border-radius:16px;max-height:420px;width:100%;object-fit:cover}
+.cover.full img{max-height:none;height:auto;object-fit:contain}
+.cover figcaption{margin-top:8px;color:var(--text3);font-size:13px;text-align:right}
 </style>

@@ -4,7 +4,7 @@ interface Props { item: NewsItem }
 const { item } = Astro.props;
 ---
 <a class="news" href={`/news/${item.slug}/`}>
-  <div class="ph">{item.image ? <img src={item.image} alt="" loading="lazy" /> : <div class="placeholder">ESVC</div>}</div>
+  <div class:list={['ph', { contain: item.imageFit === 'contain' }]}>{item.image ? <img src={item.image} alt="" loading="lazy" /> : <div class="placeholder">ESVC</div>}</div>
   <div class="body">
     <span class="cat">{item.category}</span>
     <h3>{item.title}</h3>
