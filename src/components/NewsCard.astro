@@ -8,6 +8,6 @@ const { item } = Astro.props;
   <div class="body">
     <span class="cat">{item.category}</span>
     <h3>{item.title}</h3>
-    <time datetime={String(item.date)}>{item.dateLabel ?? String(item.date)}</time>
+    <time datetime={String(item.date)}>{item.dateLabel}</time>
   </div>
 </a>

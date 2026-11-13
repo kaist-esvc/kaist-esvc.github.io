@@ -1,8 +1,7 @@
 ---
 title: 교육부 글로컬랩 사업 선정 (글로벌생산제조기술연구소)
 date: 2026-09-01
-dateLabel: 2026.09
-category: 연구·실증
+category: 센터 소식
 image: /media/news/glocal-consortium.jpg
 imageFit: contain
 summary: 국립공주대·국립한밭대·KAIST 컨소시엄이 교육부 글로컬랩 사업에 선정되어 전기차 주행거리 극대화 연구를 시작합니다.

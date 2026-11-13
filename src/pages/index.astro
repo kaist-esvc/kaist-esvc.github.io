@@ -8,7 +8,7 @@ import NewsCard from '../components/NewsCard.astro';
 import ContactBand from '../components/ContactBand.astro';
 import projects from '../data/projects.json';
 import equipment from '../data/equipment.json';
-import { news } from '../lib/news';
+import { photoNews } from '../lib/news';
 
 const flagship = projects.filter((p) => p.flagship);
 const research = projects.filter((p) => !p.flagship && (p as any).kind !== '지원').slice(0, 3);
@@ -102,7 +102,7 @@ const featured = equipment.filter((e) => e.featured);
         <a class="more" href="/news/">전체 소식</a>
       </div>
       <div class="grid-3 reveal" style="margin-top:36px">
-        {news.slice(0, 3).map((n) => <NewsCard item={n} />)}
+        {photoNews.slice(0, 3).map((n) => <NewsCard item={n} />)}
       </div>
     </div>
   </section>

@@ -1,8 +1,7 @@
 ---
 title: Route330 신규 입주기업 모집
 date: 2025-01-24
-dateLabel: 2025.01
-category: 기업지원 공고
+category: 기업지원
 summary: JDC와 함께 제주혁신성장센터 Route330 신규 입주기업 8개사 내외를 모집합니다.
 ---
 

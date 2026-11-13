@@ -1,9 +1,8 @@
 ---
 title: 제주혁신성장센터에 제주 연구거점 마련
 date: 2018-12-01
-dateLabel: 2018.12
-category: 공지사항
-image: /media/signage.jpg
+category: 센터 소식
+image: /media/jdc_center.jpg
 summary: 제주혁신성장센터(세미양빌딩)에 제주 연구거점을 마련하고 친환경·자율차 분야 기업 인큐베이팅 사업을 시작했습니다.
 ---
 

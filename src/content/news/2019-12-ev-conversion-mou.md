@@ -1,8 +1,7 @@
 ---
 title: JDC·제주도와 전기차 개조 실증 협약
 date: 2019-12-05
-dateLabel: 2019.12
-category: 공지사항
+category: 센터 소식
 summary: JDC, 제주특별자치도와 EV-LAB 구축·운영 및 전기차 개조 실증을 위한 협약을 맺었습니다.
 ---
 

@@ -1,10 +1,8 @@
 ---
 title: 제주혁신성장센터 EV-LAB 개소
 date: 2021-11-01
-dateLabel: 2021.11
-category: 연구·실증
-image: /media/news/evlab-front.jpg
-imageCredit: "사진: JDC 제주첨단과학기술단지"
+category: 센터 소식
+image: /media/news/evlab-opening-2021.jpg
 summary: 제주혁신성장센터에 모터·인버터, 배터리, 완성차 시험을 위한 EV-LAB이 문을 열었습니다.
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: 국제 미래자동차 기술 심포지엄 2019
 date: 2019-11-11
-dateLabel: 2019.11
 category: 교육·세미나
 summary: "'Shaping Future Mobility: Autonomous and Electric Vehicles'를 주제로 국제 심포지엄을 개최했습니다."
 ---

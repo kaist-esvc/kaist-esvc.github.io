@@ -1,8 +1,7 @@
 ---
 title: KAIST ESV JEJU CAMP 참가자 모집
 date: 2021-05-10
-dateLabel: 2021.05
-category: 기업지원 공고
+category: 기업지원
 summary: 자율·전기차 분야 예비창업자를 발굴하는 KAIST ESV JEJU CAMP 참가자를 모집합니다.
 ---
 
