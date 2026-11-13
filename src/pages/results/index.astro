@@ -1,7 +1,7 @@
 ---
-// 연구성과: 주요 과제 → 연구과제·사업 전체 → 논문 → 특허
+// 연구성과: 대표 과제 → 연구과제·사업 전체 → 논문 → 특허
 // 관리 메모
-//  - 과제: src/data/projects.json (flagship: true 이면 '주요 과제' 카드 + 상세 페이지,
+//  - 과제: src/data/projects.json (flagship: true 이면 '대표 과제' 카드 + 상세 페이지,
 //    kind: '지원' 이면 연구가 아닌 기업지원·위탁 사업으로 '사업' 태그 표시)
 //  - 논문: src/data/publications.json, 특허: src/data/patents.json
 //    "projects"에 과제 id를 넣으면 '사사' 표시 + 해당 과제 상세 페이지에 자동으로 나타납니다.
@@ -18,12 +18,12 @@ const all = projects.slice().sort((a, b) => b.period.localeCompare(a.period));
 ---
 <Base title="연구성과">
   <PageHead label="Projects & Publications" title="연구성과"
-    links={[{ href: '#flagship', label: '주요 과제' }, { href: '#projects', label: '연구과제·사업' }, { href: '#publications', label: '논문' }, { href: '#patents', label: '특허' }]} />
+    links={[{ href: '#flagship', label: '대표 과제' }, { href: '#projects', label: '연구과제·사업' }, { href: '#publications', label: '논문' }, { href: '#patents', label: '특허' }]} />
 
   <section id="flagship">
     <div class="wrap">
-      <div class="label">Key projects</div>
-      <h2 class="sec">주요 과제</h2>
+      <div class="label">Flagship projects</div>
+      <h2 class="sec">대표 과제</h2>
       <div class="grid-2" style="margin-top:28px">
         {flagship.map((p) => <ProgramCard p={p} />)}
       </div>

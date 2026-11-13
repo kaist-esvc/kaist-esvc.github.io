@@ -9,7 +9,7 @@ KAIST 친환경스마트자동차연구센터 홈페이지 소스입니다. Astr
 | 소식(공지·행사) 추가 | `src/content/news/` 에 `.md` 파일 1개 추가 (기존 파일을 복사해 수정) |
 | 논문 추가 | `src/data/publications.json` |
 | 특허 추가 | `src/data/patents.json` |
-| 연구과제·사업 | `src/data/projects.json` (`flagship: true` 이면 "주요 과제" 카드, `"kind": "지원"` 이면 연구가 아닌 기업지원·위탁 사업으로 `사업` 태그) |
+| 연구과제·사업 | `src/data/projects.json` (`flagship: true` 이면 "대표 과제" 카드, `"kind": "지원"` 이면 연구가 아닌 기업지원·위탁 사업으로 `사업` 태그) |
 | 연구 영역·연구 주제 | `src/data/topics.json` |
 | EV-LAB 장비 | `src/data/equipment.json` |
 | 연혁 | `src/data/history.json` |

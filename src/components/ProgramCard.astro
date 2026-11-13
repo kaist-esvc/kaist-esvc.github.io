@@ -1,5 +1,5 @@
 ---
-// 주요 과제 카드: 모든 사업이 같은 항목(발주기관·기간·사업비·책임자)을 같은 순서로 보여줍니다.
+// 대표 과제 카드: 모든 사업이 같은 항목(발주기관·기간·사업비·책임자)을 같은 순서로 보여줍니다.
 interface P { id: string; title: string; short?: string; sponsor?: string; period?: string; budget?: string; pi?: string; summary?: string }
 interface Props { p: P; href?: string }
 const { p, href = `/results/${p.id}/` } = Astro.props;
