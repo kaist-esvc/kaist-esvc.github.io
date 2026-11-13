@@ -6,7 +6,7 @@ KAIST 친환경스마트자동차연구센터 홈페이지 소스입니다. Astr
 
 | 바꾸려는 것 | 파일 |
 |---|---|
-| 소식(공지·행사) 추가 | `src/content/news/` 에 `.md` 파일 1개 추가 (기존 파일을 복사해 수정) |
+| 소식(공지·행사) 추가 | `src/content/news/` 에 `.md` 파일 1개 추가 (기존 파일을 복사해 수정). 대표 사진은 `image:` (public/media/news/ 에 저장), 설명 그림처럼 잘리면 안 되면 `imageFit: contain`, 외부 사진은 `imageCredit: "사진: 출처"` |
 | 논문 추가 | `src/data/publications.json` |
 | 특허 추가 | `src/data/patents.json` |
 | 연구과제·사업 | `src/data/projects.json` (`flagship: true` 이면 "대표 과제" 카드, `"kind": "지원"` 이면 연구가 아닌 기업지원·위탁 사업으로 `사업` 태그) |
