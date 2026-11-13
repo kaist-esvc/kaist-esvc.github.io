@@ -1,0 +1,63 @@
+---
+// 일반 연구과제 상세: 과제 개요 + 이 과제를 사사한 논문·특허
+// (주요 사업 2개는 별도 페이지: glocal-lab.astro, route330.astro)
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Facts from '../../components/Facts.astro';
+import PubList from '../../components/PubList.astro';
+import PatentList from '../../components/PatentList.astro';
+import projects from '../../data/projects.json';
+import { pubsOf, patentsOf } from '../../lib/outputs';
+
+export function getStaticPaths() {
+  return projects.filter((p) => !p.flagship).map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props as { p: any };
+const nPub = pubsOf(p.id).length;
+const nPat = patentsOf(p.id).length;
+---
+<Base title={p.title}>
+  <PageHead label={`Project · ${p.status}`} title={p.title} />
+
+  <section>
+    <div class="wrap">
+      <a class="more back" href="/results/#projects">연구과제 목록</a>
+      <Facts rows={[
+        ['발주기관', p.sponsor],
+        ['연구기간', p.period],
+        ['사업비', p.budget],
+        ['책임자', p.pi],
+        ['비고', p.note],
+      ]} />
+    </div>
+  </section>
+
+  {nPub > 0 && (
+    <section class="alt">
+      <div class="wrap">
+        <div class="label">Publications</div>
+        <h2 class="sec">논문 <span class="cnt">{nPub}</span></h2>
+        <div style="margin-top:20px"><PubList project={p.id} /></div>
+      </div>
+    </section>
+  )}
+
+  {nPat > 0 && (
+    <section>
+      <div class="wrap">
+        <div class="label">Patents</div>
+        <h2 class="sec">특허 <span class="cnt">{nPat}</span></h2>
+        <div style="margin-top:20px"><PatentList project={p.id} /></div>
+      </div>
+    </section>
+  )}
+
+  {nPub + nPat === 0 && (
+    <section class="alt"><div class="wrap"><div class="empty">이 과제의 논문·특허 정보를 준비하고 있습니다.</div></div></section>
+  )}
+</Base>
+
+<style>
+.back::after{content:none}.back::before{content:"←"}
+.cnt{font-size:.55em;color:var(--accent);vertical-align:middle;margin-left:6px}
+</style>

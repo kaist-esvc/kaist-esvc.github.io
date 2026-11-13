@@ -116,9 +116,15 @@ a.card:hover{transform:translateY(-4px);border-color:rgba(56,217,180,.45)}
 .st.done{background:rgba(106,127,156,.18);color:var(--text3)}
 .pubs{list-style:none;margin:0;padding:0}
 .pubs li{padding:16px 0;border-bottom:1px solid var(--line)}
-.pubs .ptitle{font-weight:600;font-size:16px}
+.pubs .ptitle{font-weight:600;font-size:16px;line-height:1.5}
+.pubs .ptitle a:hover{color:var(--brand)}
+.ptype{display:inline-block;font-size:11.5px;font-weight:600;border-radius:5px;padding:1px 7px;margin-right:8px;vertical-align:2px;background:rgba(58,160,255,.15);color:#7fc4ff}
+.ptype.conference{background:rgba(56,217,180,.13);color:var(--accent)}
+.ptype.patent{background:rgba(255,196,87,.14);color:#ffc457}
 .pubs .pmeta{color:var(--text2);font-size:14px}
-.pubs .ack{font-size:12.5px;color:var(--accent);font-weight:600}
+.pubs .ack{font-size:12.5px;color:var(--text3);margin-top:4px}
+.pubs .ack a{color:var(--accent);font-weight:600}
+.pubs .ack a:hover{text-decoration:underline}
 
 /* 소식 */
 .news{display:block;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);transition:border-color .2s}

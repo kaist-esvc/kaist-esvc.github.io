@@ -1,25 +1,29 @@
 ---
-// 논문 목록. publications.json 항목 예:
-// { "title": "...", "authors": "A, B, K. Choi", "venue": "IEEE T-ITS", "year": 2026, "doi": "", "projects": ["glocal-lab"], "topics": ["eco-control"] }
-import pubsData from '../data/publications.json';
-import projects from '../data/projects.json';
-interface Pub { title: string; authors: string; venue: string; year: number; doi?: string; projects?: string[]; topics?: string[] }
-interface Props { limit?: number; project?: string }
-const { limit, project } = Astro.props;
-let pubs = (pubsData as Pub[]).slice().sort((a, b) => b.year - a.year);
-if (project) pubs = pubs.filter((p) => p.projects?.includes(project));
+// 논문 목록. 데이터: src/data/publications.json (형식은 README 참고)
+import { pubs as all, projectName } from '../lib/outputs';
+interface Props { limit?: number; project?: string; showAck?: boolean }
+const { limit, project, showAck = true } = Astro.props;
+let pubs = project ? all.filter((p) => p.projects?.includes(project)) : all;
 if (limit) pubs = pubs.slice(0, limit);
-const projName = (id: string) => (projects.find((p) => p.id === id) as any)?.short ?? projects.find((p) => p.id === id)?.title ?? id;
+const meta = (p: (typeof all)[number]) =>
+  [p.venue, p.volume, p.pages && (p.pages.includes("–") ? `pp. ${p.pages}` : `Art. ${p.pages}`), p.month ? `${p.year}.${String(p.month).padStart(2, '0')}` : String(p.year)]
+    .filter(Boolean).join(', ');
 ---
 {pubs.length === 0
   ? <div class="empty">논문 목록을 준비하고 있습니다.</div>
   : (
     <ul class="pubs">
       {pubs.map((p) => (
-        <li data-topics={(p.topics ?? []).join(' ')}>
-          <div class="ptitle">{p.doi ? <a href={`https://doi.org/${p.doi}`} target="_blank" rel="noopener">{p.title}</a> : p.title}</div>
-          <div class="pmeta">{p.authors} · <i>{p.venue}</i>, {p.year}</div>
-          {p.projects && p.projects.length > 0 && <div class="ack">사사 과제: {p.projects.map(projName).join(', ')}</div>}
+        <li>
+          <div class="ptitle">
+            <span class:list={['ptype', p.type]}>{p.type === 'journal' ? '저널' : '학회'}</span>
+            {p.link ? <a href={p.link} target="_blank" rel="noopener">{p.title}</a> : p.title}
+          </div>
+          <div class="pmeta">{p.authors}</div>
+          <div class="pmeta"><i>{meta(p)}</i></div>
+          {showAck && p.projects && p.projects.length > 0 && (
+            <div class="ack">사사 · {p.projects.map((id, i) => <>{i > 0 && ', '}<a href={`/results/${id}/`}>{projectName(id)}</a></>)}</div>
+          )}
         </li>
       ))}
     </ul>

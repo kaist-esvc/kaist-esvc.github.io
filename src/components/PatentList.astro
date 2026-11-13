@@ -1,0 +1,26 @@
+---
+// 특허 목록. 데이터: src/data/patents.json (형식은 README 참고)
+import { patents as all, projectName } from '../lib/outputs';
+interface Props { project?: string; showAck?: boolean }
+const { project, showAck = true } = Astro.props;
+const list = project ? all.filter((p) => p.projects?.includes(project)) : all;
+const num = (p: (typeof all)[number]) =>
+  p.status === '등록' ? `등록 ${p.regNo}${p.regDate ? ` (${p.regDate})` : ''}` : `출원 ${p.appNo}${p.appDate ? ` (${p.appDate})` : ''}`;
+---
+{list.length > 0 && (
+  <ul class="pubs">
+    {list.map((p) => (
+      <li>
+        <div class="ptitle">
+          <span class="ptype patent">{p.country} {p.status}</span>
+          {p.link ? <a href={p.link} target="_blank" rel="noopener">{p.title}</a> : p.title}
+        </div>
+        <div class="pmeta">{p.inventors}</div>
+        <div class="pmeta"><i>{num(p)}</i></div>
+        {showAck && p.projects && p.projects.length > 0 && (
+          <div class="ack">사사 · {p.projects.map((id, i) => <>{i > 0 && ', '}<a href={`/results/${id}/`}>{projectName(id)}</a></>)}</div>
+        )}
+      </li>
+    ))}
+  </ul>
+)}
