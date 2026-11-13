@@ -11,7 +11,7 @@ import equipment from '../data/equipment.json';
 import { news } from '../lib/news';
 
 const flagship = projects.filter((p) => p.flagship);
-const research = projects.filter((p) => !p.flagship).slice(0, 3);
+const research = projects.filter((p) => !p.flagship && (p as any).kind !== '지원').slice(0, 3);
 const featured = equipment.filter((e) => e.featured);
 ---
 <Base transparentHeader>
@@ -27,11 +27,11 @@ const featured = equipment.filter((e) => e.featured);
     </div>
   </section>
 
-  <!-- 주요 사업 -->
+  <!-- 진행 중인 사업 -->
   <section class="alt">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div><div class="label">Flagship programs</div><h2 class="sec">주요 사업</h2></div>
+        <div><div class="label">Ongoing programs</div><h2 class="sec">진행 중인 사업</h2></div>
         <a class="more" href="/results/">전체 과제</a>
       </div>
       <div class="grid-2 reveal" style="margin-top:40px">
@@ -49,10 +49,17 @@ const featured = equipment.filter((e) => e.featured);
       </div>
       <p class="lead reveal" style="margin-top:14px">약 40억 원 규모의 시험장비로 전동화자동차의 부품부터 완성차까지 시험합니다.</p>
       <div class="evlab-home reveal">
-        <div class="ph"><img src="/media/evlab/chassis-dyno.jpg" alt="제주 EV-LAB 섀시 다이나모미터" loading="lazy" /></div>
-        <ul class="equip">
+        <div class="ph" id="evlab-ph">
           {featured.map((e, i) => (
-            <li><span class="ix">{String(i + 1).padStart(2, '0')}</span><div><b>{e.name}</b><p>{e.specs.slice(0, 2).join(' · ')}</p></div></li>
+            <figure class:list={['shot', { on: i === 0, contain: e.fit === 'contain' }]} data-i={i}>
+              {e.fit === 'contain' && <img class="bg" src={e.image} alt="" aria-hidden="true" loading="lazy" />}
+              <img class="fg" src={e.image} alt={`제주 EV-LAB ${e.name}`} loading="lazy" />
+            </figure>
+          ))}
+        </div>
+        <ul class="equip hoverable" id="evlab-list">
+          {featured.map((e, i) => (
+            <li class:list={{ on: i === 0 }} data-i={i} tabindex="0"><span class="ix">{String(i + 1).padStart(2, '0')}</span><div><b>{e.name}</b><p>{e.specs.slice(0, 2).join(' · ')}</p></div></li>
           ))}
         </ul>
       </div>
@@ -105,8 +112,30 @@ const featured = equipment.filter((e) => e.featured);
 
 <style>
 .evlab-home{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start;margin-top:36px}
-.evlab-home .ph{aspect-ratio:4/3;border-radius:20px;overflow:hidden}
-.evlab-home .ph img{width:100%;height:100%;object-fit:cover}
+.evlab-home .ph{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:var(--surface)}
+.evlab-home .shot{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .35s ease}
+.evlab-home .shot.on{opacity:1}
+.evlab-home .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.evlab-home .shot.contain .fg{object-fit:contain}
+.evlab-home .shot .bg{filter:blur(18px) brightness(.55);transform:scale(1.15)}
+.equip.hoverable li{cursor:pointer;transition:background .2s}
+.equip.hoverable li:hover,.equip.hoverable li.on{background:var(--surface)}
+.equip.hoverable li.on b{color:var(--accent)}
 .col-h{font-size:18px;margin:0 0 12px}
 @media(max-width:900px){.evlab-home{grid-template-columns:1fr}}
 </style>
+
+<script>
+  const list = document.getElementById('evlab-list');
+  const shots = document.querySelectorAll('#evlab-ph .shot');
+  const show = (i: string) => {
+    shots.forEach((s) => s.classList.toggle('on', (s as HTMLElement).dataset.i === i));
+    list?.querySelectorAll('li').forEach((li) => li.classList.toggle('on', li.dataset.i === i));
+  };
+  list?.querySelectorAll('li').forEach((li) => {
+    const go = () => show(li.dataset.i!);
+    li.addEventListener('mouseenter', go);
+    li.addEventListener('focus', go);
+    li.addEventListener('click', go);
+  });
+</script>

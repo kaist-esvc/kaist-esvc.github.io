@@ -1,6 +1,6 @@
 ---
 // 일반 연구과제 상세: 과제 개요 + 이 과제를 사사한 논문·특허
-// (주요 사업 2개는 별도 페이지: glocal-lab.astro, route330.astro)
+// (진행 중인 사업 2개는 별도 페이지: glocal-lab.astro, route330.astro)
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import Facts from '../../components/Facts.astro';
@@ -24,7 +24,7 @@ const nPat = patentsOf(p.id).length;
       <a class="more back" href="/results/#projects">연구과제 목록</a>
       <Facts rows={[
         ['발주기관', p.sponsor],
-        ['연구기간', p.period],
+        [(p as any).kind === '지원' ? '사업기간' : '연구기간', p.period],
         ['사업비', p.budget],
         ['책임자', p.pi],
         ['비고', p.note],
