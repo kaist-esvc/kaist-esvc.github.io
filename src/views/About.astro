@@ -46,7 +46,7 @@ const mapUrl = en
   : `https://map.naver.com/p/search/${encodeURIComponent('제주시 첨단로 330')}`;
 ---
 <Base title={t('센터 소개', 'About')} lang={lang}>
-  <PageHead label="About" title={t('센터 소개', 'About the Center')}
+  <PageHead title={t('센터 소개', 'About the Center')}
     links={[
       { href: '#greeting', label: t('인사말', 'Greeting') },
       { href: '#vision', label: t('비전 및 목표', 'Vision & goals') },
@@ -59,7 +59,6 @@ const mapUrl = en
   <section id="greeting">
     <div class="wrap greet">
       <div class="side">
-        <div class="label">Greeting</div>
         <h2 class="sec">{t('인사말', 'Greeting')}</h2>
         <img class="photo" src={d.photo} alt={en ? `Director ${d.nameEn}` : `센터장 ${d.name}`} />
       </div>
@@ -87,7 +86,6 @@ const mapUrl = en
   <!-- 비전 및 목표 -->
   <section id="vision" class="alt">
     <div class="wrap">
-      <div class="label">Vision &amp; Goals</div>
       <h2 class="sec">{t('비전 및 목표', 'Vision & goals')}</h2>
       <div class="vision">
         <span class="label">Vision</span>
@@ -98,7 +96,7 @@ const mapUrl = en
       <div class="grid-3" style="margin-top:20px">
         {axes.map((a, i) => (
           <div class="card goal">
-            <div class="ghead"><span class="label">{String(i + 1).padStart(2, '0')} · {a.en}</span><span class="kw">{a.sub}</span></div>
+            <div class="ghead"><span class="label">{String(i + 1).padStart(2, '0')}</span><span class="kw">{a.sub}</span></div>
             <h3>{a.title}</h3>
             <ul>{a.items.map((x) => <li>{x}</li>)}</ul>
           </div>
@@ -110,7 +108,6 @@ const mapUrl = en
   <!-- 연혁 -->
   <section id="history">
     <div class="wrap">
-      <div class="label">History</div>
       <h2 class="sec">{t('연혁', 'History')}</h2>
       <ol class="timeline" style="margin-top:32px">
         {history.slice().reverse().map((h) => <li><b>{h.date}</b><p>{tr(h, 'text', lang)}</p></li>)}
@@ -121,7 +118,6 @@ const mapUrl = en
   <!-- 구성원 -->
   <section id="people" class="alt">
     <div class="wrap">
-      <div class="label">People</div>
       <h2 class="sec">{t('구성원', 'People')}</h2>
 
       <div class="org">
@@ -161,7 +157,6 @@ const mapUrl = en
   <!-- 오시는 길 -->
   <section id="location">
     <div class="wrap">
-      <div class="label">Location</div>
       <h2 class="sec">{t('오시는 길', 'Location')}</h2>
       <div class="card loc">
         <div>

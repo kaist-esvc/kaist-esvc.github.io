@@ -62,7 +62,7 @@ const sv = {
 };
 ---
 <Base title={tr(p, 'short', lang)} lang={lang}>
-  <PageHead label="Flagship project · Glocal Lab" title={t('글로컬랩 · 글로벌생산제조기술연구소', 'Glocal Lab · Global Manufacturing Technology Research Institute')}
+  <PageHead label={t('대표 과제', 'Flagship project')} title={t('글로컬랩 · 글로벌생산제조기술연구소', 'Glocal Lab · Global Manufacturing Technology Research Institute')}
     lead={t('소재·부품, 생산·설계, 지능·제어 기술을 하나로 묶어 친환경 모빌리티의 주행거리를 극대화하는 지역 기반 글로벌 연구개발 플랫폼입니다.',
       'A region-based global R&D platform that combines materials and components, manufacturing and design, and intelligent control to maximize the driving range of eco-friendly mobility.')} />
 
@@ -75,7 +75,6 @@ const sv = {
 
   <section class="alt">
     <div class="wrap">
-      <div class="label">Concept</div>
       <h2 class="sec">{t('세 기술의 융합으로 주행거리를 극대화합니다', 'Three technologies combined to maximize driving range')}</h2>
       <p class="lead">{t("주행거리는 '사용 가능한 에너지 ÷ 단위거리당 에너지 소비량'입니다. 배터리를 더 싣는 대신 에너지를 저장·전달·소비하는 전 과정의 손실을 줄이기 위해, 세 기관이 각자의 강점 기술을 하나의 차량으로 통합합니다.",
         'Driving range equals usable energy divided by energy use per distance. Instead of adding more batteries, the three institutions combine their strengths in a single vehicle to cut losses across the whole chain of storing, delivering and consuming energy.')}</p>
@@ -137,7 +136,6 @@ const sv = {
   <section>
     <div class="wrap two">
       <div>
-        <div class="label">KAIST role</div>
         <h2 class="sec">{t('KAIST의 역할', "KAIST's role")}</h2>
         <p class="lead">{t('KAIST는 차량 통합제어와 실차 시험을 맡아, 소재·부품과 생산·설계의 성과가 실제 주행에서 얼마나 주행거리를 늘리는지 검증합니다. 실차 검증은 제주 EV-LAB을 중심으로 수행합니다.',
           'KAIST leads integrated vehicle control and vehicle testing, verifying how much the advances in materials, components, manufacturing and design extend range in real driving. Vehicle validation is carried out mainly at the Jeju EV-LAB.')}</p>
@@ -151,7 +149,6 @@ const sv = {
 
   <section class="alt">
     <div class="wrap">
-      <div class="label">Roadmap</div>
       <h2 class="sec">{t('단계별 목표', 'Roadmap')}</h2>
       <div class="grid-3" style="margin-top:28px">
         {stages.map((s, i) => (
@@ -167,7 +164,6 @@ const sv = {
 
   <section>
     <div class="wrap">
-      <div class="label">Publications</div>
       <h2 class="sec">{t('이 사업을 사사한 논문', 'Publications from this project')}</h2>
       <div style="margin-top:20px"><PubList project="glocal-lab" lang={lang} /></div>
     </div>

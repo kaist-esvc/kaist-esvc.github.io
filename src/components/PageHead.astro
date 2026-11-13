@@ -1,10 +1,10 @@
 ---
-interface Props { label: string; title: string; lead?: string; links?: { href: string; label: string }[] }
+interface Props { label?: string; title: string; lead?: string; links?: { href: string; label: string }[] }
 const { label, title, lead, links = [] } = Astro.props;
 ---
 <div class="page-head">
   <div class="wrap">
-    <div class="label">{label}</div>
+    {label && <div class="label">{label}</div>}
     <h1>{title}</h1>
     {lead && <p class="lead">{lead}</p>}
     {links.length > 0 && (

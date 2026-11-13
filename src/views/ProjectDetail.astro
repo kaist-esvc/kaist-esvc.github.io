@@ -22,7 +22,7 @@ const rows: [string, string][] = en
   : [['발주기관', p.sponsor], [p.kind === '지원' ? '사업기간' : '연구기간', p.period], ['사업비', p.budget], ['책임자', p.pi], ['비고', p.note]];
 ---
 <Base title={title} lang={lang}>
-  <PageHead label={`${p.kind === '지원' ? 'Program' : 'Project'} · ${statusLabel(p.status, lang)}`} title={title} />
+  <PageHead label={`${p.kind === '지원' ? t('사업', 'Program') : t('연구과제', 'Project')} · ${statusLabel(p.status, lang)}`} title={title} />
 
   <section>
     <div class="wrap">
@@ -34,7 +34,6 @@ const rows: [string, string][] = en
   {nPub > 0 && (
     <section class="alt">
       <div class="wrap">
-        <div class="label">Publications</div>
         <h2 class="sec">{t('논문', 'Publications')} <span class="cnt">{nPub}</span></h2>
         <div style="margin-top:20px"><PubList project={p.id} lang={lang} /></div>
       </div>
@@ -44,7 +43,6 @@ const rows: [string, string][] = en
   {nPat > 0 && (
     <section>
       <div class="wrap">
-        <div class="label">Patents</div>
         <h2 class="sec">{t('특허', 'Patents')} <span class="cnt">{nPat}</span></h2>
         <div style="margin-top:20px"><PatentList project={p.id} lang={lang} /></div>
       </div>

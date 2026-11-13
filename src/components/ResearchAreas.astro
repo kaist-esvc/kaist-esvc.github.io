@@ -10,7 +10,6 @@ const en = lang === 'en';
 <div class="grid-3">
   {topics.map((a, i) => (
     <div class="card area reveal" style={`transition-delay:${i * 0.08}s`}>
-      {!en && <div class="en">{a.en}</div>}
       <h3>{en ? a.en : a.ko}</h3>
       <div class="scope">{tr(a, 'scope', lang)}</div>
       <p>{tr(a, 'summary', lang)}</p>
@@ -18,7 +17,7 @@ const en = lang === 'en';
   ))}
 </div>
 <div class="card validation reveal">
-  <div><div class="en label">Validation in Jeju</div><h3>{en ? 'Validated in Jeju' : '제주 실증'}</h3></div>
+  <div><h3>{en ? 'Validated in Jeju' : '제주 실증'}</h3></div>
   <div>
     {en
       ? <p>Research results are tested at component and vehicle level at the Jeju EV-LAB, then validated again on Jeju's real roads and energy systems.</p>

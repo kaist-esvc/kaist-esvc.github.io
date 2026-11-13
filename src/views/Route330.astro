@@ -39,18 +39,18 @@ const rows: [string, string][] = en ? [
   ['Performed by', tr(p, 'lead', lang)],
   ['Period', p.period],
   ['Budget', budget(p.budget, lang)!],
-  ['Target', 'Route330 resident tech startups (intensive support for about 10 companies a year)'],
+  ['Target', 'Route330 resident tech startups'],
 ] : [
   ['발주기관', p.sponsor],
   ['수행기관', p.lead],
   ['기간', p.period],
   ['사업비', p.budget],
   ['책임자', p.pi],
-  ['대상', 'Route330 입주 기술창업기업 (연 10개사 내외 집중 지원)'],
+  ['대상', 'Route330 입주 기술창업기업'],
 ];
 ---
 <Base title={tr(p, 'short', lang)} lang={lang}>
-  <PageHead label="Flagship project · Route330" title={t('제주혁신성장센터 Route330 기술창업기업 기술고도화', 'Route330 Technology Advancement for Tech Startups, Jeju Innovation Growth Center')}
+  <PageHead label={t('대표 과제', 'Flagship project')} title={t('제주혁신성장센터 Route330 기술창업기업 기술고도화', 'Route330 Technology Advancement for Tech Startups, Jeju Innovation Growth Center')}
     lead={t("'제주 AX'를 공통 키워드로, 제주혁신성장센터 입주 기술창업기업이 기술진단부터 시험·실증, 정부 R&D, 사업화까지 이어갈 수 있도록 전주기를 지원합니다.",
       "Under the shared theme of 'Jeju AX', we support tech startups at the Jeju Innovation Growth Center across the full cycle, from technology diagnosis to testing and validation, government R&D and commercialization.")} />
 
@@ -63,7 +63,6 @@ const rows: [string, string][] = en ? [
 
   <section class="alt">
     <div class="wrap">
-      <div class="label">Concept</div>
       <h2 class="sec">{t('기업의 기술을 시장까지 잇는 전주기 지원', 'Full-cycle support from technology to market')}</h2>
       <p class="lead">{t('국가와 제주도의 정책을 기업의 기술개발·실증 과제로 구체화하고, 진단부터 사업화까지 끊김 없이 연결합니다. 시험·실증 단계는 제주 EV-LAB이 맡습니다.',
         "We turn national and Jeju policies into concrete technology development and validation tasks for companies, and connect every step from diagnosis to commercialization. The Jeju EV-LAB handles the testing and validation stage.")}</p>
@@ -105,7 +104,6 @@ const rows: [string, string][] = en ? [
 
   <section>
     <div class="wrap">
-      <div class="label">Target industries</div>
       <h2 class="sec">{t('대상 산업군', 'Target industries')}</h2>
       <div class="grid-3" style="margin-top:28px">
         {fields.map((f) => (
@@ -122,7 +120,6 @@ const rows: [string, string][] = en ? [
 
   <section class="alt">
     <div class="wrap">
-      <div class="label">Key tasks</div>
       <h2 class="sec">{t('4대 추진과제', 'Four key tasks')}</h2>
       <div class="tasks">
         {tasks.map((k) => (

@@ -30,7 +30,7 @@ const outs = (id: string) => {
 const tag = t('사업', 'Program');
 ---
 <Base title={t('연구성과', 'Research')} lang={lang}>
-  <PageHead label="Projects & Publications" title={t('연구성과', 'Research & Outputs')}
+  <PageHead title={t('연구성과', 'Research & Outputs')}
     links={[
       { href: '#flagship', label: t('대표 과제', 'Flagship projects') },
       { href: '#projects', label: t('연구과제·사업', 'Projects & programs') },
@@ -40,7 +40,6 @@ const tag = t('사업', 'Program');
 
   <section id="flagship">
     <div class="wrap">
-      <div class="label">Flagship projects</div>
       <h2 class="sec">{t('대표 과제', 'Flagship projects')}</h2>
       <div class="grid-2" style="margin-top:28px">
         {flagship.map((p) => <ProgramCard p={p} lang={lang} />)}
@@ -50,7 +49,6 @@ const tag = t('사업', 'Program');
 
   <section id="projects" class="alt">
     <div class="wrap">
-      <div class="label">Projects &amp; Programs</div>
       <h2 class="sec">{t('연구과제·사업', 'Projects & programs')}</h2>
       <p class="note"><span class="kind">{tag}</span> {t('기업 지원·위탁 사업', 'Company support and commissioned programs')}</p>
       <div class="table-wrap" style="margin-top:24px">
@@ -78,7 +76,6 @@ const tag = t('사업', 'Program');
 
   <section id="publications">
     <div class="wrap">
-      <div class="label">Publications</div>
       <h2 class="sec">{t('논문', 'Publications')} <span class="cnt">{pubs.length || ''}</span></h2>
       <div style="margin-top:20px"><PubList lang={lang} /></div>
     </div>
@@ -87,7 +84,6 @@ const tag = t('사업', 'Program');
   {patents.length > 0 && (
     <section id="patents" class="alt">
       <div class="wrap">
-        <div class="label">Patents</div>
         <h2 class="sec">{t('특허', 'Patents')} <span class="cnt">{patents.length}</span></h2>
         <div style="margin-top:20px"><PatentList lang={lang} /></div>
       </div>

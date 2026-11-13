@@ -44,7 +44,7 @@ const steps = en ? [
 ];
 ---
 <Base title="EV-LAB" lang={lang}>
-  <PageHead label="Jeju EV-LAB" title={t('제주 EV-LAB', 'Jeju EV-LAB')}
+  <PageHead title={t('제주 EV-LAB', 'Jeju EV-LAB')}
     lead={t('섀시 다이나모미터, 모터 다이나모미터, 배터리 팩·셀 시험장비를 갖춘 전동화자동차 시험시설입니다. 기업과 연구기관이 개발 시험, 검증, 시제품 제작에 이용할 수 있습니다.',
       'A test facility for electrified vehicles, equipped with a chassis dynamometer, an e-motor dynamometer and battery pack and cell testers. Companies and research institutes can use it for development testing, validation and prototyping.')}
     links={[{ href: '#equipment', label: t('시험장비', 'Equipment') }, { href: '#tests', label: t('시험 항목', 'Test capabilities') }, { href: '#use', label: t('이용 안내', 'How to use') }]} />
@@ -53,15 +53,14 @@ const steps = en ? [
     <div class="wrap intro-grid">
       <img src="/media/evlab/entrance.jpg" alt={t('제주 EV-LAB 입구', 'Jeju EV-LAB entrance')} />
       <div class="floors">
-        <div class="card"><div class="label">1F · Vehicle & powertrain</div><h3>{t('차량·구동계 시험', 'Vehicle & powertrain testing')}</h3><p>{t('섀시 다이나모미터, 모터 다이나모미터, 모터·배터리 에뮬레이터, 3D 스캐너, 차량 작업장', 'Chassis dynamometer, e-motor dynamometer, motor and battery emulators, 3D scanner, vehicle workshop')}</p></div>
-        <div class="card"><div class="label">2F · Battery lab</div><h3>{t('배터리 시험', 'Battery testing')}</h3><p>{t('배터리 팩·셀 시험기, 환경 챔버, 추가 충·방전기·열 챔버·임피던스 측정기', 'Battery pack and cell testers, environmental chamber, additional cyclers, thermal chambers and impedance analyzers')}</p></div>
+        <div class="card"><div class="label">1F</div><h3>{t('차량·구동계 시험', 'Vehicle & powertrain testing')}</h3><p>{t('섀시 다이나모미터, 모터 다이나모미터, 모터·배터리 에뮬레이터, 3D 스캐너, 차량 작업장', 'Chassis dynamometer, e-motor dynamometer, motor and battery emulators, 3D scanner, vehicle workshop')}</p></div>
+        <div class="card"><div class="label">2F</div><h3>{t('배터리 시험', 'Battery testing')}</h3><p>{t('배터리 팩·셀 시험기, 환경 챔버, 추가 충·방전기·열 챔버·임피던스 측정기', 'Battery pack and cell testers, environmental chamber, additional cyclers, thermal chambers and impedance analyzers')}</p></div>
       </div>
     </div>
   </section>
 
   <section id="equipment" class="alt">
     <div class="wrap">
-      <div class="label">Equipment</div>
       <h2 class="sec">{t('시험장비', 'Test equipment')}</h2>
       <div class="eq-list">
         {equipment.map((e) => (
@@ -85,7 +84,6 @@ const steps = en ? [
 
   <section id="tests">
     <div class="wrap">
-      <div class="label">What can be tested</div>
       <h2 class="sec">{t('무엇을 시험할 수 있나요?', 'What can you test?')}</h2>
       <div class="table-wrap" style="margin-top:24px">
         <table class="matrix">
@@ -102,7 +100,6 @@ const steps = en ? [
 
   <section id="use" class="alt">
     <div class="wrap">
-      <div class="label">How to use</div>
       <h2 class="sec">{t('이용 안내', 'How to use EV-LAB')}</h2>
       <ol class="steps">
         {steps.map((s, i) => <li class="card"><span class="label">STEP {i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></li>)}
