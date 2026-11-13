@@ -127,15 +127,15 @@ a.card:hover{transform:translateY(-4px);border-color:rgba(56,217,180,.45)}
 .pubs .ack a:hover{text-decoration:underline}
 
 /* 소식 */
-.news{display:block;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);transition:border-color .2s}
+.news{display:flex;flex-direction:column;height:100%;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);transition:border-color .2s}
 .news:hover{border-color:rgba(58,160,255,.5)}
-.news .ph{aspect-ratio:16/9;background:var(--bg2)}
-.news .ph img{width:100%;height:100%;object-fit:cover}
+.news .ph{position:relative;flex:none;aspect-ratio:16/9;overflow:hidden;background:var(--bg2)}
+.news .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .news .ph.contain{background:#fff}
 .news .ph.contain img{object-fit:contain}
-.news .body{padding:18px 20px}
+.news .body{padding:18px 20px;flex:1}
 .news .cat{font-size:12.5px;font-weight:700;color:var(--accent)}
-.news h3{margin:6px 0;font-size:16.5px;line-height:1.45}
+.news h3{margin:6px 0;font-size:16.5px;line-height:1.45;min-height:2.9em}
 .news time{font-size:13px;color:var(--text3)}
 
 /* 문의 띠 */

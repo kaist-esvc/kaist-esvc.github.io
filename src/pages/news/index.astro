@@ -1,13 +1,19 @@
 ---
-// 소식 목록: 사진이 있는 소식은 카드, 사진이 없는 소식은 한 줄 목록으로 보여줍니다.
+// 소식 목록: 날짜순으로 나열하되, 연속된 사진 소식은 카드 묶음, 연속된 사진 없는 소식은 한 줄 목록 묶음으로 보여줍니다.
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import NewsCard from '../../components/NewsCard.astro';
 import { news } from '../../lib/news';
 import cats from '../../data/news-categories.json';
 
-const withPhoto = news.filter((n) => n.image);
-const textOnly = news.filter((n) => !n.image);
+// 날짜순으로 같은 형태끼리 묶기: [카드 묶음, 목록 묶음, 카드 묶음, ...]
+const groups: { photo: boolean; items: typeof news }[] = [];
+for (const n of news) {
+  const photo = !!n.image;
+  const last = groups[groups.length - 1];
+  if (last && last.photo === photo) last.items.push(n);
+  else groups.push({ photo, items: [n] });
+}
 ---
 <Base title="소식">
   <PageHead label="News" title="소식" lead="센터 소식, 연구·실증, 기업지원, 교육·세미나 소식을 전합니다." />
@@ -18,21 +24,23 @@ const textOnly = news.filter((n) => !n.image);
         {cats.map((c) => <button type="button" data-cat={c}>{c}</button>)}
       </div>
 
-      <div class="grid-3 cards" style="margin-top:24px">
-        {withPhoto.map((n) => <div data-cat={n.category}><NewsCard item={n} /></div>)}
-      </div>
-
-      <ul class="nlist">
-        {textOnly.map((n) => (
-          <li data-cat={n.category}>
-            <a href={`/news/${n.slug}/`}>
-              <time datetime={n.date}>{n.dateLabel}</time>
-              <span class="cat">{n.category}</span>
-              <span class="tt"><b>{n.title}</b>{n.summary && <small>{n.summary}</small>}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      {groups.map((g) => g.photo ? (
+        <div class="grid-3 cards grp">
+          {g.items.map((n) => <div data-cat={n.category}><NewsCard item={n} /></div>)}
+        </div>
+      ) : (
+        <ul class="nlist grp">
+          {g.items.map((n) => (
+            <li data-cat={n.category}>
+              <a href={`/news/${n.slug}/`}>
+                <time datetime={n.date}>{n.dateLabel}</time>
+                <span class="cat">{n.category}</span>
+                <span class="tt"><b>{n.title}</b>{n.summary && <small>{n.summary}</small>}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ))}
     </div>
   </section>
 </Base>
@@ -41,7 +49,8 @@ const textOnly = news.filter((n) => !n.image);
 .filter{display:flex;flex-wrap:wrap;gap:8px}
 .filter button{font:600 13.5px var(--sans);color:var(--text2);background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
 .filter button.on,.filter button:hover{color:#fff;border-color:var(--accent);background:var(--accent-soft)}
-.nlist{list-style:none;margin:40px 0 0;padding:0;border-top:1px solid var(--line)}
+.grp{margin-top:28px}
+.nlist{list-style:none;padding:0;border-top:1px solid var(--line)}
 .nlist a{display:grid;grid-template-columns:84px 96px 1fr;gap:4px 16px;align-items:baseline;padding:16px 6px;border-bottom:1px solid var(--line);color:var(--text)}
 .nlist a:hover b{color:var(--brand)}
 .nlist time{font-family:var(--mono);font-size:13.5px;color:var(--text3)}
@@ -58,5 +67,6 @@ const textOnly = news.filter((n) => !n.image);
     const c = b.dataset.cat ?? '';
     btns.forEach((x) => x.classList.toggle('on', x === b));
     items.forEach((el) => { el.hidden = !!c && el.dataset.cat !== c; });
+    document.querySelectorAll<HTMLElement>('.grp').forEach((g) => { g.hidden = !g.querySelector('[data-cat]:not([hidden])'); });
   }));
 </script>
