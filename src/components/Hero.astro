@@ -1,8 +1,9 @@
 ---
 // 홈 대표 영상: 아래 목록을 차례로 재생 후 반복 (파일은 public/media/hero/)
 //  - hero-1: 제주 해안도로 주행 (전동화자동차)
-//  - hero-2: 태양광·풍력 충전소 → 제주섬 전경 (에너지·실증)
-//  영상 대신 이미지를 넣으려면 { type: 'image', src: '...', dur: 8000 } 형식으로 추가합니다.
+//  - hero-2: 태양광·풍력 충전소 (에너지)
+//  - hero-3: 제주섬 전경 이미지 (천천히 확대)
+//  이미지는 { type: 'image', src: '...', dur: 7000 } 형식으로 추가합니다(dur = 표시 시간, ms).
 import type { Lang } from '../lib/i18n';
 interface Props { lang?: Lang }
 const { lang = 'ko' } = Astro.props;
@@ -10,6 +11,7 @@ const en = lang === 'en';
 const slides: { type: 'video' | 'image'; src: string; poster?: string; dur?: number }[] = [
   { type: 'video', src: '/media/hero/hero-1.mp4', poster: '/media/hero/hero-1-poster.jpg' },
   { type: 'video', src: '/media/hero/hero-2.mp4', poster: '/media/hero/hero-2-poster.jpg' },
+  { type: 'image', src: '/media/hero/hero-3.jpg', dur: 7000 },
 ];
 ---
 <section class="hero" id="hero" aria-label={en ? "Center showcase" : "센터 대표 영상"}>
