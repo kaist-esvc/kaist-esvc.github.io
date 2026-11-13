@@ -1,14 +1,15 @@
 ---
-// 홈 대표 영상: 영상 2개 + 이미지 2장을 차례로 재생 (파일은 public/media/hero/)
+// 홈 대표 영상: 아래 목록을 차례로 재생 후 반복 (파일은 public/media/hero/)
+//  - hero-1: 제주 해안도로 주행 (전동화자동차)
+//  - hero-2: 태양광·풍력 충전소 → 제주섬 전경 (에너지·실증)
+//  영상 대신 이미지를 넣으려면 { type: 'image', src: '...', dur: 8000 } 형식으로 추가합니다.
 import type { Lang } from '../lib/i18n';
 interface Props { lang?: Lang }
 const { lang = 'ko' } = Astro.props;
 const en = lang === 'en';
-const slides = [
+const slides: { type: 'video' | 'image'; src: string; poster?: string; dur?: number }[] = [
   { type: 'video', src: '/media/hero/hero-1.mp4', poster: '/media/hero/hero-1-poster.jpg' },
   { type: 'video', src: '/media/hero/hero-2.mp4', poster: '/media/hero/hero-2-poster.jpg' },
-  { type: 'image', src: '/media/hero/hero-3.jpg', dur: 8000 },
-  { type: 'image', src: '/media/hero/hero-4.jpg', dur: 8000 },
 ];
 ---
 <section class="hero" id="hero" aria-label={en ? "Center showcase" : "센터 대표 영상"}>
@@ -40,7 +41,7 @@ const slides = [
 
   <div class="hero-bar">
     <div class="wrap">
-      <div class="steps">
+      <div class="steps" style={`--n:${slides.length}`}>
         {slides.map((_, i) => (
           <button class:list={['step', { on: i === 0 }]} type="button" aria-label={en ? `Scene ${i + 1}` : `장면 ${i + 1}`}><span class="track"><span class="fill"></span></span></button>
         ))}
@@ -60,7 +61,7 @@ const slides = [
 .slide.kb.on img{animation:kb 9s ease-out forwards}
 @keyframes kb{to{transform:scale(1.12) translate(-1.5%,-1%)}}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:
-  linear-gradient(90deg,rgba(6,16,25,.86) 0%,rgba(6,16,25,.62) 30%,rgba(6,16,25,.12) 58%,transparent 75%),
+  linear-gradient(90deg,rgba(6,16,25,.9) 0%,rgba(6,16,25,.7) 32%,rgba(6,16,25,.2) 60%,transparent 78%),
   linear-gradient(180deg,rgba(6,16,25,.55) 0%,transparent 16%),
   linear-gradient(0deg,var(--bg) 0%,rgba(8,19,31,.6) 10%,transparent 26%)}
 .hero .wrap{position:relative;z-index:2;width:100%}
@@ -71,7 +72,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#5bb4ff,var(--accent));
 .desc{color:#c4d1e3;font-size:16.5px;margin:0;text-shadow:0 1px 12px rgba(0,0,0,.4)}
 .hero-bar{position:absolute;left:0;right:0;bottom:34px;z-index:3}
 .hero-bar .wrap{display:flex;align-items:center;gap:14px}
-.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;flex:1;max-width:520px}
+.steps{display:grid;grid-template-columns:repeat(var(--n,4),minmax(0,1fr));gap:12px;flex:1;max-width:min(520px,calc(var(--n,4) * 130px))}
 .step{all:unset;cursor:pointer;display:block;padding-block:10px}
 .track{display:block;height:2px;background:rgba(255,255,255,.2);overflow:hidden;border-radius:2px}
 .fill{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--accent))}
