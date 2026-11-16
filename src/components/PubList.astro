@@ -21,6 +21,7 @@ const meta = (p: (typeof all)[number]) =>
           <div class="ptitle">
             <span class:list={['ptype', p.type]}>{p.type === 'journal' ? (en ? 'Journal' : '저널') : (en ? 'Conference' : '학회')}</span>
             {p.link ? <a href={p.link} target="_blank" rel="noopener">{p.title}</a> : p.title}
+            {p.award && <span class="award">{en ? (p.awardEn ?? 'Award') : p.award}</span>}
           </div>
           <div class="pmeta">{p.authors}</div>
           <div class="pmeta"><i>{meta(p)}</i></div>

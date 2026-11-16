@@ -49,6 +49,7 @@ KAIST 친환경스마트자동차연구센터 홈페이지 소스입니다. Astr
 - `type`: `journal`(저널) 또는 `conference`(학회)
 - `link`: 누구나 열 수 있는 주소 (DOI 우선, 없으면 학술지·학회 페이지). 원문 PDF는 올리지 않습니다.
 - `projects`: 사사한 과제 id (`projects.json`의 `id`). 공동 사사면 모두 넣습니다. 넣으면 해당 과제 상세 페이지에 자동으로 나타납니다.
+- `award` (선택): 수상한 논문이면 상 이름 (예: `"award": "우수논문상", "awardEn": "Best Paper Award"`). 제목 옆에 ★ 표시가 붙습니다.
 
 ### 특허 한 건의 형식 (`src/data/patents.json`)
 

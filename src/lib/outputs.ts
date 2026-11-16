@@ -7,6 +7,7 @@ import { tr, type Lang } from './i18n';
 export interface Pub {
   id: string; type: 'journal' | 'conference'; authors: string; title: string; venue: string;
   volume?: string; pages?: string; year: number; month?: number; link?: string; projects?: string[];
+  award?: string; awardEn?: string; // 수상 (예: "우수논문상")
 }
 export interface Patent {
   id: string; title: string; country: string; status: '출원' | '등록'; inventors: string; titleEn?: string;
