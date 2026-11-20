@@ -5,6 +5,7 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import equipment from '../data/equipment.json';
+import usersData from '../data/evlab-users.json';
 import site from '../data/site.json';
 import { tr, type Lang } from '../lib/i18n';
 
@@ -12,6 +13,9 @@ interface Props { lang?: Lang }
 const { lang = 'ko' } = Astro.props;
 const en = lang === 'en';
 const t = (ko: string, eng: string) => (en ? eng : ko);
+// 이용 기관 로고: src/data/evlab-users.json (로고 파일은 public/media/evlab/users/)
+// 장비별 이용 내역은 공개하지 않습니다(내부 기록은 저장소 밖에 보관).
+const users = usersData as { name: string; nameEn?: string; logo: string; url?: string; urlEn?: string }[];
 
 const cols = en
   ? ['Chassis dynamometer', 'Motor & inverter', 'Battery', '3D scanner', 'Workshop']
@@ -47,7 +51,7 @@ const steps = en ? [
   <PageHead title={t('제주 EV-LAB', 'Jeju EV-LAB')}
     lead={t('섀시 다이나모미터, 모터 다이나모미터, 배터리 팩·셀 시험장비를 갖춘 전동화자동차 시험시설입니다. 기업과 연구기관이 개발 시험, 검증, 시제품 제작에 이용할 수 있습니다.',
       'A test facility for electrified vehicles, equipped with a chassis dynamometer, an e-motor dynamometer and battery pack and cell testers. Companies and research institutes can use it for development testing, validation and prototyping.')}
-    links={[{ href: '#equipment', label: t('시험장비', 'Equipment') }, { href: '#tests', label: t('시험 항목', 'Test capabilities') }, { href: '#use', label: t('이용 안내', 'How to use') }]} />
+    links={[{ href: '#equipment', label: t('시험장비', 'Equipment') }, { href: '#tests', label: t('시험 항목', 'Test capabilities') }, ...(users.length ? [{ href: '#users', label: t('이용 기관', 'Users') }] : []), { href: '#use', label: t('이용 안내', 'How to use') }]} />
 
   <section class="intro">
     <div class="wrap intro-grid">
@@ -98,7 +102,24 @@ const steps = en ? [
     </div>
   </section>
 
-  <section id="use" class="alt">
+  {users.length > 0 && (
+    <section id="users" class="alt">
+      <div class="wrap">
+        <h2 class="sec">{t('이용 기관', 'Organizations that have used EV-LAB')}</h2>
+        <ul class="logos">
+          {users.map((u) => (
+            <li title={tr(u, 'name', lang)}>
+              {tr(u, 'url', lang)
+                ? <a href={tr(u, 'url', lang)} target="_blank" rel="noopener"><img src={u.logo} alt={tr(u, 'name', lang)} loading="lazy" /></a>
+                : <img src={u.logo} alt={tr(u, 'name', lang)} loading="lazy" />}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section id="use">
     <div class="wrap">
       <h2 class="sec">{t('이용 안내', 'How to use EV-LAB')}</h2>
       <ol class="steps">
@@ -144,6 +165,10 @@ const steps = en ? [
 .use p{margin:0;color:var(--text2)}
 .use a{color:var(--brand)}
 .addr{color:var(--text2);margin-top:20px}
+.logos{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.logos li{background:#fff;border-radius:14px;height:96px;display:grid;place-items:center;padding:18px 22px}
+.logos a{display:grid;place-items:center;width:100%;height:100%}
+.logos img{width:100%;height:44px;object-fit:contain}
 @media(max-width:900px){.intro-grid,.eq{grid-template-columns:1fr}.steps,.use{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.steps,.use{grid-template-columns:1fr}}
 </style>
