@@ -1,5 +1,7 @@
 [
   {"id":"evlab-2025-ksae-bil-autonomous","type":"conference","authors":"Dongmin Kim, Kitae Jang, Yoon Koo Lee","title":"Development of a Battery-in-the-Loop Based Simulator for Testing Electric Autonomous Vehicles","venue":"한국자동차공학회 춘계학술대회","year":2025},
+  {"id":"evlab-2025-ksme-bil-battery","type":"conference","authors":"Dongmin Kim, Kitae Jang, Yoon Koo Lee","title":"Development of a Battery-in-the-Loop Based Simulator for Battery Performance Testing Under Realistic Driving Environments","venue":"대한기계학회 CAE 및 응용역학부문 춘계학술대회","year":2025},
   {"id":"evlab-2026-battery-active-balancing","type":"conference","authors":"김동해, 김동민, 서형빈, 신철진, 이윤구","title":"재사용 배터리 팩의 능동 셀 밸런싱을 위한 Buck-Boost 및 Flyback형 에너지 전달 경로 비교","venue":"이차전지학회 추계학술대회","year":2026},
-  {"id":"evlab-2026-battery-cell-imbalance","type":"conference","authors":"김동민, 신철진, 이윤구","title":"실사용 배터리 데이터 기반 재사용 이차전지 팩의 셀 간 불균일성 진단 기법","venue":"이차전지학회 추계학술대회","year":2026}
+  {"id":"evlab-2026-battery-cell-imbalance","type":"conference","authors":"김동민, 신철진, 이윤구","title":"실사용 배터리 데이터 기반 재사용 이차전지 팩의 셀 간 불균일성 진단 기법","venue":"이차전지학회 추계학술대회","year":2026},
+  {"id":"evlab-2026-battery-cell-temp","type":"conference","authors":"서형빈, 김동민, 하진호, 김동해, 이윤구","title":"Per cell Temperature Estimation in Battery Module Using a Reduced-Order Thermal Model and Data Driven AI","venue":"이차전지학회 추계학술대회","year":2026}
 ]
