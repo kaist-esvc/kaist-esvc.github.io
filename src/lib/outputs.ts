@@ -1,6 +1,7 @@
 // 논문·특허 데이터와 과제 연결 도우미
 import pubsData from '../data/publications.json';
 import patentsData from '../data/patents.json';
+import evlabPapersData from '../data/evlab-papers.json';
 import projects from '../data/projects.json';
 import { tr, type Lang } from './i18n';
 
@@ -18,6 +19,8 @@ const byDate = (a: { year: number; month?: number }, b: { year: number; month?: 
   b.year - a.year || (b.month ?? 0) - (a.month ?? 0);
 
 export const pubs = (pubsData as Pub[]).slice().sort(byDate);
+// EV-LAB 을 이용해 나온 논문 (센터 논문 목록과 별도, EV-LAB 페이지에만 표시)
+export const evlabPubs = (evlabPapersData as Pub[]).slice().sort(byDate);
 export const patents = (patentsData as Patent[]).slice().sort((a, b) =>
   (b.regDate ?? b.appDate ?? '').localeCompare(a.regDate ?? a.appDate ?? ''));
 

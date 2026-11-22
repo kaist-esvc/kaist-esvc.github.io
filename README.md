@@ -12,6 +12,7 @@ KAIST 친환경스마트자동차연구센터 홈페이지 소스입니다. Astr
 | 연구과제·사업 | `src/data/projects.json` (`flagship: true` 이면 "대표 과제" 카드, `"kind": "지원"` 이면 연구가 아닌 기업지원·위탁 사업으로 `사업` 태그) |
 | 연구 영역·연구 주제 | `src/data/topics.json` |
 | EV-LAB 장비 | `src/data/equipment.json` |
+| EV-LAB 이용 기관 로고 · 활용 논문 | `src/data/evlab-users.json` · `src/data/evlab-papers.json` (논문 형식은 publications.json 과 같음, 발표·게재된 것만) |
 | 연혁 | `src/data/history.json` |
 | 구성원 | `src/data/people.json` |
 | 연락처·주소 | `src/data/site.json` |

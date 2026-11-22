@@ -8,6 +8,8 @@ import equipment from '../data/equipment.json';
 import usersData from '../data/evlab-users.json';
 import site from '../data/site.json';
 import { tr, type Lang } from '../lib/i18n';
+import PubList from '../components/PubList.astro';
+import { evlabPubs } from '../lib/outputs';
 
 interface Props { lang?: Lang }
 const { lang = 'ko' } = Astro.props;
@@ -15,6 +17,7 @@ const en = lang === 'en';
 const t = (ko: string, eng: string) => (en ? eng : ko);
 // 이용 기관 로고: src/data/evlab-users.json (로고 파일은 public/media/evlab/users/)
 // 장비별 이용 내역은 공개하지 않습니다(내부 기록은 저장소 밖에 보관).
+// EV-LAB 활용 논문: src/data/evlab-papers.json (형식은 publications.json 과 같음, 게재·발표된 것만)
 const users = usersData as { name: string; nameEn?: string; logo: string; url?: string; urlEn?: string }[];
 
 const cols = en
@@ -102,7 +105,7 @@ const steps = en ? [
     </div>
   </section>
 
-  {users.length > 0 && (
+  {(users.length > 0 || evlabPubs.length > 0) && (
     <section id="users" class="alt">
       <div class="wrap">
         <h2 class="sec">{t('이용 기관', 'Organizations that have used EV-LAB')}</h2>
@@ -115,6 +118,10 @@ const steps = en ? [
             </li>
           ))}
         </ul>
+        {evlabPubs.length > 0 && (<>
+          <h3 class="subsec">{t('EV-LAB 활용 논문', 'Publications using EV-LAB')}</h3>
+          <PubList items={evlabPubs} showAck={false} lang={lang} />
+        </>)}
       </div>
     </section>
   )}
@@ -159,6 +166,7 @@ const steps = en ? [
 .dot{color:var(--accent)}
 .steps{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .steps h3{margin:6px 0;font-size:18px}
+.subsec{margin:48px 0 6px;font-size:20px}
 .steps p{margin:0;color:var(--text2);font-size:14.5px}
 .use{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
 .use h3{margin:0 0 8px;font-size:17px}

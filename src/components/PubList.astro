@@ -1,11 +1,13 @@
 ---
 // 논문 목록. 데이터: src/data/publications.json (형식은 README 참고)
 // 논문 제목·저자·학회명은 원문 그대로 표시합니다 (영문판도 동일).
-import { pubs as all, projectName } from '../lib/outputs';
+// items 를 넘기면 센터 논문 대신 그 목록을 표시합니다 (예: EV-LAB 활용 논문).
+import { pubs as centerPubs, projectName, type Pub } from '../lib/outputs';
 import { href, type Lang } from '../lib/i18n';
-interface Props { limit?: number; project?: string; showAck?: boolean; lang?: Lang }
-const { limit, project, showAck = true, lang = 'ko' } = Astro.props;
+interface Props { limit?: number; project?: string; showAck?: boolean; lang?: Lang; items?: Pub[] }
+const { limit, project, showAck = true, lang = 'ko', items } = Astro.props;
 const en = lang === 'en';
+const all = items ?? centerPubs;
 let pubs = project ? all.filter((p) => p.projects?.includes(project)) : all;
 if (limit) pubs = pubs.slice(0, limit);
 const meta = (p: (typeof all)[number]) =>
